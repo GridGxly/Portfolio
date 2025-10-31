@@ -1,24 +1,20 @@
 # GridGxly.dev — Portfolio (WIP)
 
-A Simple Personal Portfolio Site To House My Projects, Experinces, Education And Document My Overall Professional Growth**Public, welcoming, and under active construction.**
-
-> Tailwind v3 is finally working 🎉.  expect frequent updates.
-
----
+A Personal Portfolio Site To House My Projects, Experiences, Education And Document My Overall Professional Growth.
 
 ## Live Site
 
 * **[https://gridgxly.dev](https://gridgxly.dev)**
 
-## Tech Stack
-
-* **React** + **TypeScript**
-* **TailwindCSS V3**
-
 ## Current Status
 
 * Basic layout online.
 * Temporary section that serves as a placeholder.
+
+## Tech Stack
+
+* **React** + **TypeScript**
+* **TailwindCSS V3**
 
 ## Patch Notes
 
