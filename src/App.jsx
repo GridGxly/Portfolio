@@ -10,14 +10,14 @@ export default function App() {
     <main className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center">
       <div className="mx-auto w-full max-w-5xl px-6 py-16">
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
-          Tailwind v3 finally working Jeez. Welcome To GridGxly.Dev
+          Tailwind v3 finally working.......... Anyways, Welcome To GridGxly.Dev
         </h1>
 
         <p className="mt-6 text-lg text-neutral-300 max-w-2xl">
-          Portfolio is still in production, im sorry if you clicked this link hoping for something that was polished. Thanks for visiting though, I really appreciate it. 🙏
+          Portfolio is unfortunately still in production, im sorry if you clicked this link hoping for something that was polished. Thanks for visiting though, I really appreciate it. 🙏
           <br />
           <span className="inline-block mt-2">
-            There are a few images below, I hope they give you a good laugh and make the visit worth it.
+            There are a few images below, I hope they give you a good laugh and make the visit worth it. Have a great rest of your day🥀🥀🥀
           </span>
         </p>
 
