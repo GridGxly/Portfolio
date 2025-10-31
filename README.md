@@ -1,4 +1,4 @@
-# GridGxly.dev — Portfolio (WIP)
+# GridGxly.dev — Portfolio
 
 A Personal Portfolio Site To House My Projects, Experiences, Education And Document My Overall Professional Growth.
 
