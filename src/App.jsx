@@ -10,7 +10,7 @@ export default function App() {
     <main className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center">
       <div className="mx-auto w-full max-w-5xl px-6 py-16">
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
-          Tailwind v3 finally working Jeez
+          Tailwind v3 finally working Jeez. Welcome To GridGxly.Dev
         </h1>
 
         <p className="mt-6 text-lg text-neutral-300 max-w-2xl">
@@ -38,7 +38,7 @@ export default function App() {
         </div>
 
         <footer className="mt-12 text-sm text-neutral-400">
-          © {new Date().getFullYear()} Ralph — more soon.
+          © {new Date().getFullYear()} GridGxly.dev
         </footer>
       </div>
     </main>
