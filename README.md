@@ -14,7 +14,7 @@ A Personal Portfolio Site To House My Projects, Experiences, Education And Docum
 ## Tech Stack
 
 * **React** + **TypeScript**
-* **TailwindCSS V3**
+* **Tailwind**
 
 ## Patch Notes
 
