@@ -58,7 +58,6 @@
     export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
-
     const pillBase =
     "relative inline-flex items-center justify-center rounded-full px-4 py-1 text-sm font-medium " +
     "text-neutral-200 overflow-hidden transition-colors duration-200 " +
@@ -74,14 +73,17 @@
     className={`group ${pillBase} mr-4 max-sm:px-3 max-sm:py-1 text-lg sm:text-2xl font-semibold tracking-tight whitespace-nowrap leading-none`}
     >
     <span className="relative z-10 select-none">
-    <span className="text-white group-hover:text-neutral-950">GridGxly</span>
-    <span className="text-grid-accent-soft group-hover:text-neutral-950">.Dev</span>
+    <span className="text-white group-hover:text-neutral-950">
+        GridGxly
+    </span>
+    <span className="text-grid-accent-soft group-hover:text-neutral-950">
+    .Dev
+    </span>
     </span>
     </Link>
 
 
-
-    <div className="absolute left-1/2 hidden -translate-x-1/2 gap-4 sm:flex">
+    <div className="hidden sm:flex gap-4 ml-auto mr-4">
     {navLinks.map((link) => (
     <Link key={link.to} to={link.to} className={`group ${pillBase}`}>
     <span className="relative z-10 group-hover:text-neutral-950">
@@ -91,100 +93,100 @@
     ))}
     </div>
 
-    <div className="ml-auto hidden items-center gap-3 sm:flex">
-    <a
-    href="https://github.com/GridGxly"
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
-    >
-    <span className="sr-only">GitHub</span>
-    <IconGitHub className="h-5 w-5" />
-    </a>
-    <a
-    href="https://www.linkedin.com/in/ralphnoel/"
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
-    >
-    <span className="sr-only">LinkedIn</span>
-    <IconLinkedIn className="h-5 w-5" />
-    </a>
-    <a
-    href="/Ralph-Resume.pdf"
-    className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
-    >
-    <span className="sr-only">Résumé</span>
-    <IconDocument className="h-5 w-5" />
-    </a>
-    </div>
+
+        <div className="hidden items-center gap-3 sm:flex">
+        <a
+        href="https://github.com/GridGxly"
+        target="_blank"
+        rel="noreferrer"
+        className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
+        >
+        <span className="sr-only">GitHub</span>
+        <IconGitHub className="h-5 w-5" />
+        </a>
+        <a
+        href="https://www.linkedin.com/in/ralphnoel/"
+        target="_blank"
+        rel="noreferrer"
+        className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
+        >
+        <span className="sr-only">LinkedIn</span>
+        <IconLinkedIn className="h-5 w-5" />
+        </a>
+        <a
+        href="/Ralph-Resume.pdf"
+        className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
+        >
+        <span className="sr-only">Résumé</span>
+        <IconDocument className="h-5 w-5" />
+        </a>
+        </div>
+
+        <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        aria-label="Toggle navigation"
+        className="ml-auto text-neutral-100 sm:hidden"
+        >
+        {isOpen ? (
+        <span className="text-2xl leading-none">&times;</span>
+        ) : (
+        <span className="relative flex h-5 w-7 flex-col justify-between">
+        <span className="block h-0.5 w-full rounded-full bg-current" />
+        <span className="block h-0.5 w-full rounded-full bg-current" />
+        <span className="block h-0.5 w-full rounded-full bg-current" />
+        </span>
+        )}
+        </button>
+        </nav>
 
 
-    <button
-    type="button"
-    onClick={() => setIsOpen((open) => !open)}
-    aria-label="Toggle navigation"
-    className="ml-auto text-neutral-100 sm:hidden"
-    >
-    {isOpen ? (
-    <span className="text-2xl leading-none">&times;</span>
-    ) : (
-    <span className="relative flex h-5 w-7 flex-col justify-between">
-    <span className="block h-0.5 w-full rounded-full bg-current" />
-    <span className="block h-0.5 w-full rounded-full bg-current" />
-    <span className="block h-0.5 w-full rounded-full bg-current" />
-    </span>
-    )}
-    </button>
-    </nav>
+        {isOpen && (
+        <div className="border-t border-neutral-800 bg-neutral-950/95 sm:hidden">
+        <div className="space-y-2 px-4 py-3">
+        {navLinks.map((link) => (
+        <Link
+        key={link.to}
+        to={link.to}
+        className={`group ${pillBase} w-full justify-start px-3 py-2`}
+        onClick={() => setIsOpen(false)}
+        >
+        <span className="relative z-10 group-hover:text-neutral-950">
+        {link.label}
+        </span>
+        </Link>
+        ))}
 
-
-    {isOpen && (
-    <div className="border-t border-neutral-800 bg-neutral-950/95 sm:hidden">
-    <div className="space-y-2 px-4 py-3">
-    {navLinks.map((link) => (
-    <Link
-    key={link.to}
-    to={link.to}
-    className={`group ${pillBase} w-full justify-start px-3 py-2`}
-    onClick={() => setIsOpen(false)}
-    >
-    <span className="relative z-10 group-hover:text-neutral-950">
-    {link.label}
-    </span>
-    </Link>
-    ))}
-
-    <div className="mt-3 flex justify-center gap-4 pt-1 text-neutral-200">
-    <a
-    href="https://github.com/GridGxly"
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
-    >
-    <span className="sr-only">GitHub</span>
-    <IconGitHub className="h-5 w-5" />
-    </a>
-    <a
-    href="https://www.linkedin.com/in/ralphnoel/"
-    target="_blank"
-    rel="noreferrer"
-    className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
-    >
-    <span className="sr-only">LinkedIn</span>
-    <IconLinkedIn className="h-5 w-5" />
-    </a>
-    <a
-    href="/Ralph-Resume.pdf"
-    className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
-    >
-    <span className="sr-only">Résumé</span>
-    <IconDocument className="h-5 w-5" />
-    </a>
-    </div>
-    </div>
-    </div>
-    )}
-    </header>
-    );
-    }
+        <div className="mt-3 flex justify-center gap-4 pt-1 text-neutral-200">
+        <a
+        href="https://github.com/GridGxly"
+        target="_blank"
+        rel="noreferrer"
+        className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
+        >
+        <span className="sr-only">GitHub</span>
+        <IconGitHub className="h-5 w-5" />
+        </a>
+        <a
+        href="https://www.linkedin.com/in/ralphnoel/"
+        target="_blank"
+        rel="noreferrer"
+        className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
+        >
+        <span className="sr-only">LinkedIn</span>
+        <IconLinkedIn className="h-5 w-5" />
+        </a>
+        <a
+        href="/Ralph-Resume.pdf"
+        className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
+        >
+        <span className="sr-only">Résumé</span>
+        <IconDocument className="h-5 w-5" />
+        </a>
+        </div>
+        </div>
+        </div>
+        )}
+        </header>
+        );
+}
