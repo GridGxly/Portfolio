@@ -111,20 +111,21 @@
 
     <button
     type="button"
-    className="inline-flex items-center justify-center rounded-md p-2 text-neutral-100 sm:hidden"
     onClick={() => setIsOpen(!isOpen)}
     aria-label="Toggle navigation"
+    className="sm:hidden text-neutral-100"
     >
     {isOpen ? (
-    <span className="text-xl">&times;</span>
+    <span className="text-2xl leading-none">&times;</span>
     ) : (
-    <>
-    <span className="block h-0.5 w-5 bg-current" />
-    <span className="mt-1 block h-0.5 w-5 bg-current" />
-    <span className="mt-1 block h-0.5 w-5 bg-current" />
-    </>
+    <span className="relative flex h-5 w-7 flex-col justify-between">
+    <span className="block h-0.5 w-full rounded-full bg-current" />
+    <span className="block h-0.5 w-full rounded-full bg-current" />
+    <span className="block h-0.5 w-full rounded-full bg-current" />
+    </span>
     )}
     </button>
+
     </nav>
 
 
