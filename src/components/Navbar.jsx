@@ -37,8 +37,7 @@
     aria-hidden="true"
     fill="currentColor"
     >
-    <path d="M4.983 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.983 0ZM.3 8.25h4.5V24H.3V8.25Zm7.548 0h4.311v2.134h.061c.6-1.137 2.067-2.334 4.253-2.334
-    4.547 0 5.39 2.993 5.39 6.885V24h-4.5v-7.72c0-1.84-.033-4.205-2.563-4.205-2.564 0-2.957 2.003-2.957 4.07V24h-4.5V8.25Z" />
+    <path d="M4.983 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.983 0ZM.3 8.25h4.5V24H.3V8.25Zm7.548 0h4.311v2.134h.061c.6-1.137 2.067-2.334 4.253-2.334 4.547 0 5.39 2.993 5.39 6.885V24h-4.5v-7.72c0-1.84-.033-4.205-2.563-4.205-2.564 0-2.957 2.003-2.957 4.07V24h-4.5V8.25Z" />
     </svg>
     );
     }
@@ -53,7 +52,7 @@
     >
     <path d="M6 2a2 2 0 0 0-2 2v16c0 1.105.895 2 2 2h12a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414l-4.828-4.828A2 2 0 0 0 13.172 3H6Zm7 1.5V8h4.5L13 3.5ZM8 11h8v2H8v-2Zm0 4h5v2H8v-2Z" />
     </svg>
-    );
+    );  
     }
 
     export default function Navbar() {
@@ -61,14 +60,14 @@
 
     return (
     <header className="fixed inset-x-0 top-0 z-50 bg-neutral-950/85 backdrop-blur">
-    <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
+    <nav className="relative flex h-16 items-center px-4 sm:px-8">
     <Link to="/" className="text-base font-semibold tracking-tight">
     <span className="font-bold lowercase">gridgxly</span>
     <span className="text-blue-300">.dev</span>
     </Link>
 
 
-    <div className="hidden gap-8 text-sm font-medium text-neutral-200 sm:flex">
+    <div className="hidden sm:flex gap-8 text-sm font-medium text-neutral-200 absolute left-1/2 -translate-x-1/2">
     {navLinks.map((link) => (
     <Link
     key={link.to}
@@ -80,7 +79,7 @@
     ))}
     </div>
 
-    <div className="hidden items-center gap-4 sm:flex">
+    <div className="ml-auto hidden items-center gap-4 sm:flex">
     <a
     href="https://github.com/GridGxly"
     target="_blank"
@@ -91,7 +90,7 @@
     <IconGitHub className="h-5 w-5" />
     </a>
     <a
-    href="https://www.linkedin.com"
+    href="https://www.linkedin.com/in/ralphnoel/"
     target="_blank"
     rel="noreferrer"
     className="text-neutral-200 hover:text-white transition-colors"
@@ -113,7 +112,7 @@
     type="button"
     onClick={() => setIsOpen(!isOpen)}
     aria-label="Toggle navigation"
-    className="sm:hidden text-neutral-100"
+    className="sm:hidden text-neutral-100 ml-auto"
     >
     {isOpen ? (
     <span className="text-2xl leading-none">&times;</span>
@@ -126,7 +125,6 @@
     )}
     </button>
     </nav>
-
 
     {isOpen && (
     <div className="sm:hidden bg-neutral-950/95">
