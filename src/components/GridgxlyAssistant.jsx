@@ -1,10 +1,13 @@
     import { useState } from "react";
+    import { useNavigate } from "react-router-dom";
 
     export default function GridgxlyAssistant() {
     const [input, setInput] = useState("");
     const [reply, setReply] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     async function handleSubmit(e) {
     e.preventDefault();
@@ -22,11 +25,33 @@
     });
 
     if (!res.ok) {
-    throw new Error(`Request failed with status ${res.status}`);
+        throw new Error(`Request failed with status ${res.status}`);
     }
 
     const data = await res.json();
-    setReply(data.reply || "GRIDGXLY didn't send a reply.");
+    const rawReply = data.reply || "GRIDGXLY didn't send a reply.";
+
+
+    const lower = rawReply.toLowerCase();
+
+    if (lower.includes("[go_projects]".toLowerCase())) {
+    navigate("/projects");
+    } else if (lower.includes("[go_experience]".toLowerCase())) {
+    navigate("/experience");
+    } else if (lower.includes("[go_skills]".toLowerCase())) {
+    navigate("/skills");
+    } else if (lower.includes("[go_contact]".toLowerCase())) {
+        navigate("/contact");
+    }
+
+    const cleanedReply = rawReply
+    .replace(/\[GO_PROJECTS\]/i, "")
+    .replace(/\[GO_EXPERIENCE\]/i, "")
+    .replace(/\[GO_SKILLS\]/i, "")
+    .replace(/\[GO_CONTACT\]/i, "")
+    .trim();
+
+    setReply(cleanedReply);
     } catch (err) {
     console.error("GRIDGXLY frontend error:", err);
     setError("Something went wrong talking to GRIDGXLY.");
@@ -39,7 +64,7 @@
     <div className="fixed bottom-4 right-4 z-50">
     <div className="bg-slate-900/95 border border-slate-700 rounded-2xl shadow-xl p-4 w-80 text-slate-100">
     <h2 className="text-sm font-semibold mb-2">
-    G.R.I.D.G.X.L.Y Assistant
+        G.R.I.D.G.X.L.Y
     </h2>
 
     <form onSubmit={handleSubmit} className="space-y-2">
@@ -75,4 +100,4 @@
     </div>
     </div>
     );
-    }
+}
