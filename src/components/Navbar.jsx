@@ -52,41 +52,43 @@
     >
     <path d="M6 2a2 2 0 0 0-2 2v16c0 1.105.895 2 2 2h12a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414l-4.828-4.828A2 2 0 0 0 13.172 3H6Zm7 1.5V8h4.5L13 3.5ZM8 11h8v2H8v-2Zm0 4h5v2H8v-2Z" />
     </svg>
-    );  
+    );
     }
 
     export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
 
-    const navPillClasses =
-    "relative inline-flex items-center justify-center rounded-full px-4 py-1 text-sm font-medium text-neutral-200 transition-colors duration-200 " +
-    "before:absolute before:inset-0 before:rounded-full before:bg-grid-accent-soft before:scale-x-0 before:origin-center before:transition-transform before:duration-200 before:content-[''] " +
-    "hover:before:scale-x-100 hover:text-neutral-950";
+    const pillBase =
+    "relative inline-flex items-center justify-center rounded-full px-4 py-1 text-sm font-medium " +
+    "text-neutral-200 overflow-hidden transition-colors duration-200 " +
+    "before:absolute before:inset-0 before:rounded-full before:bg-grid-accent-soft " +
+    "before:scale-x-0 before:origin-center before:transition-transform before:duration-200 before:content-[''] " +
+    "hover:before:scale-x-100";
 
     return (
     <header className="fixed inset-x-0 top-0 z-50 bg-neutral-950 text-neutral-100 backdrop-blur">
     <nav className="relative mx-auto flex h-16 max-w-5xl items-center px-4 sm:px-6">
     <Link
     to="/"
-    className={`group ${navPillClasses} mr-4 max-sm:px-3 max-sm:py-1 text-base font-semibold tracking-tight`}
+    className={`group ${pillBase} mr-4 max-sm:px-3 max-sm:py-1 text-base font-semibold tracking-tight whitespace-nowrap leading-none`}
     >
-    <span className="relative z-10 font-bold lowercase">
-    gridgxly.
-    </span>
-    <span className="relative z-10 ml-0.5 text-neutral-100 group-hover:text-neutral-100">dev
+    <span className="relative z-10 lowercase select-none">
+    <span className="text-white group-hover:text-neutral-950">gridgxly</span>
+    <span className="text-grid-accent-soft group-hover:text-neutral-950">.dev</span>
     </span>
     </Link>
 
 
     <div className="absolute left-1/2 hidden -translate-x-1/2 gap-4 sm:flex">
     {navLinks.map((link) => (
-    <Link key={link.to} to={link.to} className={navPillClasses}>
-    <span className="relative z-10">{link.label}</span>
+    <Link key={link.to} to={link.to} className={`group ${pillBase}`}>
+    <span className="relative z-10 group-hover:text-neutral-950">
+    {link.label}
+    </span>
     </Link>
     ))}
     </div>
-
 
     <div className="ml-auto hidden items-center gap-3 sm:flex">
     <a
@@ -137,16 +139,18 @@
 
 
     {isOpen && (
-    <div className="sm:hidden border-t border-neutral-800 bg-neutral-950/95">
+    <div className="border-t border-neutral-800 bg-neutral-950/95 sm:hidden">
     <div className="space-y-2 px-4 py-3">
     {navLinks.map((link) => (
     <Link
     key={link.to}
     to={link.to}
-    className={`${navPillClasses} w-full justify-start px-3 py-2`}
+    className={`group ${pillBase} w-full justify-start px-3 py-2`}
     onClick={() => setIsOpen(false)}
     >
-    <span className="relative z-10">{link.label}</span>
+    <span className="relative z-10 group-hover:text-neutral-950">
+    {link.label}
+    </span>
     </Link>
     ))}
 
