@@ -46,7 +46,7 @@
     - Keep answers short, clear, and friendly.
     `.trim(),
     },
-    {   
+    {
     role: "user",
     content: userMessage,
     },
