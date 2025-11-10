@@ -1,4 +1,6 @@
-  import { BrowserRouter, Routes, Route } from "react-router-dom";
+  import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+  import { AnimatePresence, motion } from "framer-motion";
+
   import Navbar from "./components/Navbar";
   import GridgxlyAssistant from "./components/GridgxlyAssistant";
   import HomePage from "./Pages/HomePage";
@@ -6,19 +8,65 @@
   import ProjectsPage from "./Pages/ProjectsPage";
   import SkillsPage from "./Pages/SkillsPage";
 
-  export default function App() {
+
+  function PageTransition({ children }) {
   return (
-  <BrowserRouter>
+  <motion.div
+  initial={{ opacity: 0, y: 8 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -8 }}
+  transition={{ duration: 0.25, ease: "easeOut" }}
+  >
+  {children}
+  </motion.div>
+  );
+  }
+
+
+  function AppShell() {
+  const location = useLocation();
+
+  return (
   <div id="top" className="min-h-screen bg-grid-bg text-grid-text">
-  <Navbar />  
-  
+  <Navbar />
+
   <main className="mx-auto w-full max-w-5xl px-6 pt-28 pb-16">
-  <Routes>
-  <Route path="/" element={<HomePage />} />
-  <Route path="/experience" element={<ExperiencePage />} />
-  <Route path="/projects" element={<ProjectsPage />} />
-  <Route path="/skills" element={<SkillsPage />} />
+  <AnimatePresence mode="wait">
+  <Routes location={location} key={location.pathname}>
+  <Route
+  path="/"
+  element={
+  <PageTransition>
+  <HomePage />
+  </PageTransition>
+  }
+  />
+  <Route
+  path="/experience"
+  element={
+  <PageTransition>
+  <ExperiencePage />
+  </PageTransition>
+  }
+  />
+  <Route
+  path="/projects"
+  element={
+  <PageTransition>
+  <ProjectsPage />
+  </PageTransition>
+  }
+  />
+  <Route
+  path="/skills"
+  element={
+  <PageTransition>
+  <SkillsPage />
+  </PageTransition>
+  }
+  />
   </Routes>
+  </AnimatePresence>
 
   <footer className="mt-16 border-t border-grid-border/60 pt-6 text-center text-xs text-neutral-400 sm:text-sm">
   <p className="flex items-center justify-center gap-1">
@@ -34,14 +82,21 @@
   </p>
 
   <p className="mt-1">
-              © {new Date().getFullYear()} Ralph Clavens Love Noel. All rights
-              reserved.
+            © {new Date().getFullYear()} Ralph Clavens Love Noel. All rights
+            reserved.
   </p>
   </footer>
   </main>
 
   <GridgxlyAssistant />
   </div>
+  );
+  }
+
+  export default function App() {
+  return (
+  <BrowserRouter>
+  <AppShell />
   </BrowserRouter>
   );
 }
