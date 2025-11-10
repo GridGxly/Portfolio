@@ -20,8 +20,23 @@
   <Route path="/skills" element={<SkillsPage />} />
   </Routes>
 
-  <footer className="mt-12 text-sm text-neutral-500">
-            © {new Date().getFullYear()} GridGxly.dev
+  <footer className="mt-12 border-t border-neutral-800 pt-6 text-xs sm:text-sm text-neutral-500">
+  <p>
+  Made with{" "}
+  <img
+  src="/HeartGif.gif"
+  alt="One Piece style heart emoji"
+  className="inline h-4 w-4 align-text-bottom mx-1"
+  />
+
+  by Ralph
+</p>
+
+
+  <p className="mt-1">
+  © {new Date().getFullYear()} Ralph Clavens Love Noel. All rights
+  reserved.
+  </p>
   </footer>
   </main>
   </div>
