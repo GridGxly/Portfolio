@@ -58,34 +58,43 @@
     export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
+
+    const navPillClasses =
+    "relative inline-flex items-center justify-center rounded-full px-4 py-1 text-sm font-medium text-neutral-200 transition-colors duration-200 " +
+    "before:absolute before:inset-0 before:rounded-full before:bg-grid-accent-soft before:scale-x-0 before:origin-center before:transition-transform before:duration-200 before:content-[''] " +
+    "hover:before:scale-x-100 hover:text-neutral-950";
+
     return (
     <header className="fixed inset-x-0 top-0 z-50 bg-neutral-950 text-neutral-100 backdrop-blur">
     <nav className="relative mx-auto flex h-16 max-w-5xl items-center px-4 sm:px-6">
-    <Link to="/" className="text-base font-semibold tracking-tight">
-    <span className="font-bold lowercase">gridgxly</span>
-    <span className="text-grid-accent-soft">.dev</span>
+    <Link
+    to="/"
+    className={`group ${navPillClasses} mr-4 max-sm:px-3 max-sm:py-1 text-base font-semibold tracking-tight`}
+    >
+    <span className="relative z-10 font-bold lowercase">
+            gridgxly
+    </span>
+    <span className="relative z-10 ml-0.5 text-neutral-100 group-hover:text-neutral-100">
+            .dev
+    </span>
     </Link>
 
 
-
-    <div className="hidden sm:flex gap-8 text-sm font-medium text-neutral-200 absolute left-1/2 -translate-x-1/2">
+    <div className="absolute left-1/2 hidden -translate-x-1/2 gap-4 sm:flex">
     {navLinks.map((link) => (
-    <Link
-    key={link.to}
-    to={link.to}
-    className="hover:text-white transition-colors"
-    >
-    {link.label}
+    <Link key={link.to} to={link.to} className={navPillClasses}>
+    <span className="relative z-10">{link.label}</span>
     </Link>
     ))}
     </div>
 
-    <div className="ml-auto hidden items-center gap-4 sm:flex">
+
+    <div className="ml-auto hidden items-center gap-3 sm:flex">
     <a
     href="https://github.com/GridGxly"
     target="_blank"
     rel="noreferrer"
-    className="text-neutral-200 hover:text-white transition-colors"
+    className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
     >
     <span className="sr-only">GitHub</span>
     <IconGitHub className="h-5 w-5" />
@@ -94,14 +103,14 @@
     href="https://www.linkedin.com/in/ralphnoel/"
     target="_blank"
     rel="noreferrer"
-    className="text-neutral-200 hover:text-white transition-colors"
+    className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
     >
     <span className="sr-only">LinkedIn</span>
     <IconLinkedIn className="h-5 w-5" />
     </a>
     <a
     href="/Ralph-Resume.pdf"
-    className="text-neutral-200 hover:text-white transition-colors"
+    className="rounded-md p-2 text-neutral-200 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
     >
     <span className="sr-only">Résumé</span>
     <IconDocument className="h-5 w-5" />
@@ -111,9 +120,9 @@
 
     <button
     type="button"
-    onClick={() => setIsOpen(!isOpen)}
+    onClick={() => setIsOpen((open) => !open)}
     aria-label="Toggle navigation"
-    className="sm:hidden text-neutral-100 ml-auto"
+    className="ml-auto text-neutral-100 sm:hidden"
     >
     {isOpen ? (
     <span className="text-2xl leading-none">&times;</span>
@@ -127,45 +136,46 @@
     </button>
     </nav>
 
+
     {isOpen && (
-    <div className="sm:hidden bg-neutral-950/95">
-    <div className="space-y-1 px-4 pb-4 pt-2 text-lg text-neutral-100">
+    <div className="sm:hidden border-t border-neutral-800 bg-neutral-950/95">
+    <div className="space-y-2 px-4 py-3">
     {navLinks.map((link) => (
     <Link
     key={link.to}
     to={link.to}
-    className="block rounded-lg px-2 py-2 hover:bg-white/5"
+    className={`${navPillClasses} w-full justify-start px-3 py-2`}
     onClick={() => setIsOpen(false)}
     >
-    {link.label}
+    <span className="relative z-10">{link.label}</span>
     </Link>
     ))}
 
-    <div className="mt-4 flex justify-center gap-5 pb-2 text-neutral-200">
+    <div className="mt-3 flex justify-center gap-4 pt-1 text-neutral-200">
     <a
     href="https://github.com/GridGxly"
     target="_blank"
     rel="noreferrer"
-    className="hover:text-white transition-colors"
+    className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
     >
     <span className="sr-only">GitHub</span>
-    <IconGitHub className="h-6 w-6" />
+    <IconGitHub className="h-5 w-5" />
     </a>
     <a
     href="https://www.linkedin.com/in/ralphnoel/"
     target="_blank"
     rel="noreferrer"
-    className="hover:text-white transition-colors"
+    className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
     >
     <span className="sr-only">LinkedIn</span>
-    <IconLinkedIn className="h-6 w-6" />
+    <IconLinkedIn className="h-5 w-5" />
     </a>
     <a
     href="/Ralph-Resume.pdf"
-    className="hover:text-white transition-colors"
+    className="rounded-md p-2 transition-colors duration-200 hover:bg-grid-accent-soft/20 hover:text-grid-accent-soft"
     >
     <span className="sr-only">Résumé</span>
-    <IconDocument className="h-6 w-6" />
+    <IconDocument className="h-5 w-5" />
     </a>
     </div>
     </div>
