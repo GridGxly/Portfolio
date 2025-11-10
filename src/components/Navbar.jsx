@@ -71,9 +71,7 @@
     <nav className="relative flex h-16 items-center px-4 sm:px-6">
     <Link
     to="/"
-    className={`group ${pillBase} mr-4 max-sm:px-3 max-sm:py-1
-    text-lg sm:text-xl lg:text-[22px]
-    font-semibold tracking-tight whitespace-nowrap leading-none`}
+    className={`group ${pillBase} mr-4 max-sm:px-3 max-sm:py-1 text-lg sm:text-2xl font-semibold tracking-tight whitespace-nowrap leading-none`}
     >
     <span className="relative z-10 select-none">
     <span className="text-white group-hover:text-neutral-950">GridGxly</span>
