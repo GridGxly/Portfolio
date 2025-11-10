@@ -68,16 +68,17 @@
 
     return (
     <header className="fixed inset-x-0 top-0 z-50 bg-neutral-950 text-neutral-100 backdrop-blur">
-    <nav className="relative mx-auto flex h-16 max-w-5xl items-center px-4 sm:px-6">
+    <nav className="relative flex h-16 items-center px-4 sm:px-6">
     <Link
     to="/"
-    className={`group ${pillBase} mr-4 max-sm:px-3 max-sm:py-1 text-base font-semibold tracking-tight whitespace-nowrap leading-none`}
+    className={`group ${pillBase} mr-4 max-sm:px-3 max-sm:py-1 text-lg sm:text-2xl font-semibold tracking-tight whitespace-nowrap leading-none`}
     >
-    <span className="relative z-10 lowercase select-none">
-    <span className="text-white group-hover:text-neutral-950">gridgxly</span>
-    <span className="text-grid-accent-soft group-hover:text-neutral-950">.dev</span>
+    <span className="relative z-10 select-none">
+    <span className="text-white group-hover:text-neutral-950">GridGxly</span>
+    <span className="text-grid-accent-soft group-hover:text-neutral-950">.Dev</span>
     </span>
     </Link>
+
 
 
     <div className="absolute left-1/2 hidden -translate-x-1/2 gap-4 sm:flex">
