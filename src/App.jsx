@@ -1,6 +1,5 @@
     import { BrowserRouter, Routes, Route } from "react-router-dom";
     import Navbar from "./components/Navbar";
-    import GridgxlyAssistant from "./components/GridgxlyAssistant";
     import HomePage from "./Pages/HomePage";
     import ExperiencePage from "./Pages/ExperiencePage";
     import ProjectsPage from "./Pages/ProjectsPage";
