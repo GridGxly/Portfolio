@@ -72,10 +72,9 @@
     className={`group ${navPillClasses} mr-4 max-sm:px-3 max-sm:py-1 text-base font-semibold tracking-tight`}
     >
     <span className="relative z-10 font-bold lowercase">
-            gridgxly
+    gridgxly.
     </span>
-    <span className="relative z-10 ml-0.5 text-neutral-100 group-hover:text-neutral-100">
-            .dev
+    <span className="relative z-10 ml-0.5 text-neutral-100 group-hover:text-neutral-100">dev
     </span>
     </Link>
 
