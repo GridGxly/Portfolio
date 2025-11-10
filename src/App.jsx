@@ -9,7 +9,7 @@
   export default function App() {
   return (
   <BrowserRouter>
-  <div id="top" className="min-h-screen bg-neutral-950 text-neutral-100">
+  <div id="top" className="min-h-screen bg-grid-bg text-grid-text">
   <Navbar />
 
   <main className="mx-auto w-full max-w-5xl px-6 pt-28 pb-16">
@@ -29,7 +29,7 @@
   className="inline h-4 w-4 align-text-bottom mx-1"
   />
 
-  by Ralph
+   by Ralph
 </p>
 
 
