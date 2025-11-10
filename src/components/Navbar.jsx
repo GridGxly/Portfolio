@@ -59,8 +59,8 @@
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-grid-bg/90 backdrop-blur">
-    <nav className="relative flex h-16 items-center px-4 sm:px-8">
+    <header className="fixed inset-x-0 top-0 z-50 bg-neutral-950 text-neutral-100 backdrop-blur">
+    <nav className="relative mx-auto flex h-16 max-w-5xl items-center px-4 sm:px-6">
     <Link to="/" className="text-base font-semibold tracking-tight">
     <span className="font-bold lowercase">gridgxly</span>
     <span className="text-grid-accent-soft">.dev</span>
