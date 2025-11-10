@@ -91,7 +91,7 @@
     <IconGitHub className="h-5 w-5" />
     </a>
     <a
-    href="https://www.linkedin.com"
+    href="https://www.linkedin.com/in/ralphnoel/"
     target="_blank"
     rel="noreferrer"
     className="text-neutral-200 hover:text-white transition-colors"
@@ -142,36 +142,36 @@
     </a>
     ))}
 
-    <div className="mt-4 flex justify-center gap-4 pb-2">
+    <div className="mt-4 flex justify-center gap-5 pb-2 text-neutral-200">
     <a
     href="https://github.com/GridGxly"
     target="_blank"
     rel="noreferrer"
-    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 hover:bg-white/15 transition"
+    className="hover:text-white transition-colors"
     >
     <span className="sr-only">GitHub</span>
-    <IconGitHub className="h-5 w-5" />
+    <IconGitHub className="h-6 w-6" />
     </a>
     <a
-    href="https://www.linkedin.com/in/ralphnoel/"
+    href="https://www.linkedin.com"
     target="_blank"
     rel="noreferrer"
-    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 hover:bg-white/15 transition"
+    className="hover:text-white transition-colors"
     >
     <span className="sr-only">LinkedIn</span>
-    <IconLinkedIn className="h-5 w-5" />
+    <IconLinkedIn className="h-6 w-6" />
     </a>
     <a
     href="/Ralph-Resume.pdf"
-    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 hover:bg-white/15 transition"
+    className="hover:text-white transition-colors"
     >
     <span className="sr-only">Résumé</span>
-    <IconDocument className="h-5 w-5" />
+    <IconDocument className="h-6 w-6" />
     </a>
     </div>
     </div>
     </div>
     )}
     </header>
-    );
+    );  
     }
