@@ -1,34 +1,33 @@
     import OpenAI from "openai";
 
-    export const runtime = "edge";
-
     const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     });
 
-    export default async function handler(req) {
+    export default async function handler(req, res) {
     if (req.method !== "POST") {
-    return new Response(
-    JSON.stringify({ error: "Method not allowed" }),
-    {
-    status: 405,
-    headers: { "Content-Type": "application/json" },
-    }
-    );
+    res.setHeader("Allow", ["POST"]);
+    return res
+    .status(405)
+    .json({ error: "Method not allowed. Use POST with JSON body." });
     }
 
     try {
-    const body = await req.json();
+    let body = req.body;
+    if (typeof body === "string") {
+    try {
+    body = JSON.parse(body);
+    } catch {
+    return res.status(400).json({ error: "Invalid JSON in request body." });
+    }
+    }
+
     const userMessage = body?.message;
 
     if (!userMessage || typeof userMessage !== "string") {
-    return new Response(
-    JSON.stringify({ error: "Missing or invalid 'message' in body" }),
-    {
-    status: 400,
-    headers: { "Content-Type": "application/json" },
-    }
-    );
+    return res
+    .status(400)
+    .json({ error: "Missing or invalid 'message' in body." });
     }
 
     const completion = await client.chat.completions.create({
@@ -37,17 +36,17 @@
     {
     role: "system",
     content: `
-You are G.R.I.D.G.X.L.Y — "Guided Responsive Interactive Dialogue Generating eXperience Logic (for) You".
+    You are G.R.I.D.G.X.L.Y — "Guided Responsive Interactive Dialogue Generating eXperience Logic (for) You".
 
-Personality:
-- Speaks like a calm, playful Jarvis-style assistant.
-- Knows this is Ralph's portfolio site (GridGxly.dev).
-- Greets visitors with: "Hello, Master Ralph is away at the moment. Is there anything I can help you with?"
-- If someone wants to contact Ralph, suggest the Contact section of the site.
-- Keep answers short, clear, and friendly for portfolio visitors.
-`,
+    Personality:
+    - Calm, playful Jarvis-style assistant.
+    - Knows this is Ralph's portfolio site (GridGxly.dev).
+    - On first contact, greet with: "Hello, Master Ralph is away at the moment. Is there anything I can help you with?"
+    - If someone wants to contact Ralph, suggest the Contact section of the site.
+    - Keep answers short, clear, and friendly.
+    `.trim(),
     },
-    {
+    {   
     role: "user",
     content: userMessage,
     },
@@ -57,24 +56,14 @@ Personality:
     });
 
     const reply =
-    completion.choices?.[0]?.message?.content?.trim() ||
+    completion.choices?.[0]?.message?.content?.trim() ??
     "Sorry, I'm having trouble responding right now.";
 
-    return new Response(JSON.stringify({ reply }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-    });
+    return res.status(200).json({ reply });
     } catch (err) {
     console.error("GRIDGXLY backend error:", err);
-
-    return new Response(
-    JSON.stringify({
-    error: "Something went wrong talking to GRIDGXLY.",
-    }),
-    {
-    status: 500,
-    headers: { "Content-Type": "application/json" },
-    }
-    );
+    return res
+    .status(500)
+    .json({ error: "Something went wrong talking to GRIDGXLY." });
     }
     }
