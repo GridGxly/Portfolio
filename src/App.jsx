@@ -47,37 +47,32 @@
   </div>
   </section>
 
-        <section id="experience" className="mt-24">
-          <h2 className="text-2xl font-semibold">Experience</h2>
-          <p className="mt-2 text-sm text-neutral-400">
-            Nothing here yet but we will see.
-          </p>
-        </section>
+  
+  <section id="experience" className="mt-24">
+  <h2 className="text-2xl font-semibold">Experience</h2>
+  <p className="mt-2 text-sm text-neutral-400">
+            This is the section where my profesional roles and leadership will live
+  </p>
+  </section>
 
-        <section id="projects" className="mt-16">
-          <h2 className="text-2xl font-semibold">Projects</h2>
-          <p className="mt-2 text-sm text-neutral-400">
-            This section is where all my projects will be stored like finbridge and voyagoAI
-          </p>
-        </section>
+  <section id="projects" className="mt-16">
+  <h2 className="text-2xl font-semibold">Projects</h2>
+  <p className="mt-2 text-sm text-neutral-400">
+            projects will be here but tbd for now
+  </p>
+  </section>
 
-        <section id="skills" className="mt-16">
-          <h2 className="text-2xl font-semibold">Skills</h2>
-          <p className="mt-2 text-sm text-neutral-400">
-            all my tech stacks and tools will be held here. and lowk maybe something to bring some life to the skills section and not make it as generic.
-          </p>
-        </section>
+  <section id="skills" className="mt-16">
+  <h2 className="text-2xl font-semibold">Skills</h2>
+  <p className="mt-2 text-sm text-neutral-400">
+      my tech stacks and tools will be here, but there will be. a twist to make it intrstesting and not generic (tbd)
+  </p>
+  </section>
 
-        <section id="features" className="mt-16">
-          <h2 className="text-2xl font-semibold">Features</h2>
-          <p className="mt-2 text-sm text-neutral-400">
-          </p>
-        </section>
-
-        <footer className="mt-12 text-sm text-neutral-500">
+  <footer className="mt-12 text-sm text-neutral-500">
           © {new Date().getFullYear()} GridGxly.dev
-        </footer>
-      </main>
-    </div>
+  </footer>
+  </main>
+  </div>
   );
 }

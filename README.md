@@ -19,8 +19,9 @@ A Personal Portfolio Site To House My Projects, Experiences, Education And Docum
 ## Patch Notes
 
 
-* **v1.0.0** — Initial scaffold, Tailwind v3 wired, dev server running, basic pages stubbed.
-* **v1.1.0** — *reserved*
-* **v1.2.0** — *reserved*
-* **v1.3.0** — *reserved*
-* **v2.0.0** — *reserved*
+* **V
+* **Beta** — Initial scaffold, Tailwind v3 wired, dev server running, basic pages stubbed.
+* **V1.1.0** — *reserved*
+* **V1.2.0** — *reserved*
+* **V1.3.0** — *reserved*
+* **V2.0.0** — *reserved*
