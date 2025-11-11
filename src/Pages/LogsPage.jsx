@@ -1,66 +1,99 @@
-// src/Pages/LogsPage.jsx
 import { useEffect, useState } from "react";
-import ProtectedPage from "../components/ProtectedPage";
+import { clearLogEntries, getLogEntries } from "../utils/logs";
+import { Link } from "react-router-dom";
 
 function LogsPage() {
-  const [logs, setLogs] = useState([]);
+const [entries, setEntries] = useState([]);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("gridgxly_logs");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        // newest first
-        setLogs(parsed.reverse());
-      }
-    } catch (e) {
-      console.error("log read failed", e);
-    }
-  }, []);
+function load() {
+    const logs = getLogEntries();
+    setEntries([...logs].reverse());
+}
 
-  return (
-    <ProtectedPage pageKey="logs">
-      <main className="min-h-[calc(100vh-80px)] bg-slate-950 text-slate-50 px-6 py-10">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          G.R.I.D.G.X.L.Y Conversation Logs
-        </h1>
-        <p className="mt-1 text-sm text-slate-400">
-          Local-only logs from this browser. Use for debugging and lore.
-        </p>
+useEffect(() => {
+    load();
+}, []);
 
-        <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/70 p-4 max-h-[70vh] overflow-y-auto">
-          {logs.length === 0 && (
-            <p className="text-sm text-slate-500">
-              No logs yet. Talk to GRIDGXLY first.
+function handleClear() {
+    const ok = window.confirm("Clear all GRIDGXLY logs in this browser?");
+    if (!ok) return;
+    clearLogEntries();
+    setEntries([]);
+}
+
+return (
+    <main className="min-h-screen bg-slate-950 text-slate-100 px-4 py-10">
+    <div className="mx-auto max-w-4xl space-y-4">
+        <header className="flex items-center justify-between gap-3">
+        <div>
+            <p className="text-xs uppercase tracking-[0.25em] text-cyan-400">
+            G.R.I.D.G.X.L.Y • Logs
             </p>
-          )}
-
-          <ul className="space-y-3 text-sm">
-            {logs.map((entry, idx) => (
-              <li
-                key={idx}
-                className={`rounded-2xl px-3 py-2 ${
-                  entry.role === "user"
-                    ? "bg-slate-800/80 border border-slate-700"
-                    : "bg-cyan-500/10 border border-cyan-500/40"
-                }`}
-              >
-                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 mb-1">
-                  {entry.role === "user" ? "User" : "GRIDGXLY"}
-                </p>
-                <p className="text-slate-100">{entry.text}</p>
-                {entry.ts && (
-                  <p className="mt-1 text-[10px] text-slate-500">
-                    {new Date(entry.ts).toLocaleString()}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
+            <h1 className="mt-2 text-2xl font-bold text-slate-50">
+            Voice & system logs
+            </h1>
+            <p className="mt-1 text-xs text-slate-400">
+            Stored only in this browser’s localStorage. Great for debugging your AI assistant.
+            </p>
         </div>
-      </main>
-    </ProtectedPage>
-  );
+
+        <div className="flex flex-col items-end gap-2">
+            <button
+            onClick={load}
+            className="rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-1.5 text-xs text-slate-100 hover:bg-slate-800"
+            >
+            Refresh
+            </button>
+            <button
+            onClick={handleClear}
+            className="rounded-2xl bg-red-500/90 px-3 py-1.5 text-xs font-medium text-slate-950 hover:bg-red-400"
+            >
+            Clear logs
+            </button>
+        </div>
+        </header>
+
+        {entries.length === 0 ? (
+        <p className="mt-6 text-sm text-slate-500">
+            No log entries yet. Once GRIDGXLY starts logging interactions,
+            they’ll appear here.
+        </p>
+        ) : (
+        <ul className="mt-4 space-y-3">
+            {entries.map((entry) => (
+            <li
+                key={entry.id}
+                className="rounded-2xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-xs"
+            >
+                <div className="flex items-center justify-between gap-2">
+                <span className="inline-flex items-center rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-cyan-300">
+                    {entry.type || "event"}
+                </span>
+                <span className="text-[10px] text-slate-500">
+                    {new Date(entry.timestamp).toLocaleString()}
+                </span>
+                </div>
+                {entry.payload && (
+                <pre className="mt-2 whitespace-pre-wrap break-words rounded-xl bg-slate-950/70 px-3 py-2 text-[11px] text-slate-100">
+                    {JSON.stringify(entry.payload, null, 2)}
+                </pre>
+                )}
+            </li>
+            ))}
+        </ul>
+        )}
+
+        <div className="pt-4">
+        <Link
+            to="/adminview"
+            className="text-xs text-slate-500 hover:text-slate-300"
+        >
+            ← Back to admin view
+        </Link>
+        </div>
+    </div>
+    </main>
+);
 }
 
 export default LogsPage;

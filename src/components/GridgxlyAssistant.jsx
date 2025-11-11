@@ -1,7 +1,8 @@
     import { useEffect, useRef, useState } from "react";
+    import { appendLogEntry } from "../utils/logs";
 
     function GridgxlyAssistant() {
-    const [isActive, setIsActive] = useState(false);    // session on/off
+    const [isActive, setIsActive] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [hasGreeted, setHasGreeted] = useState(false);
     const [speechSupported, setSpeechSupported] = useState(true);
