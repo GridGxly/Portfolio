@@ -55,3 +55,37 @@ body {
 background-color: #020617; 
 color: #f9fafb;
 }
+@keyframes skill-float {
+0%, 100% {
+transform: translateY(0);
+}
+50% {
+transform: translateY(-6px);
+}
+}
+
+.skill-float {
+animation: skill-float 6s ease-in-out infinite;
+}
+
+
+.skill-grid .skill-card:nth-child(2n) {
+animation-delay: 0.4s;
+}
+.skill-grid .skill-card:nth-child(3n) {
+animation-delay: 0.8s;
+}
+
+@keyframes skill-float {
+0%,
+100% {
+transform: translateY(0);
+}
+50% {
+transform: translateY(-6px);
+}
+}
+
+.skill-float {
+animation: skill-float 6s ease-in-out infinite;
+}
