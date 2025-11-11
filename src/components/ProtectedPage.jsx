@@ -1,88 +1,124 @@
-    import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-    const STORAGE_KEY = "gridgxly_admin_ok";
-    const ADMIN_PASSPHRASE = "1972";
+function ProtectedPage({ children }) {
+const [checked, setChecked] = useState(false);
+const [hasAccess, setHasAccess] = useState(false);
 
-    function ProtectedPage({ children }) {
-    const [hasAccess, setHasAccess] = useState(false);
-    const [checkedLocal, setCheckedLocal] = useState(false);
-    const [input, setInput] = useState("");
-    const [error, setError] = useState("");
+const [input, setInput] = useState("");
+const [error, setError] = useState("");
+const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+
+useEffect(() => {
+    async function checkStatus() {
     try {
-    const flag = localStorage.getItem(STORAGE_KEY);
-    if (flag === "true") {
-    setHasAccess(true);
+        const res = await fetch("/api/admin-status");
+        if (res.ok) {
+        const data = await res.json();
+        if (data.ok) {
+            setHasAccess(true);
+        }
+        }
+    } catch (err) {
+        console.error("admin-status error:", err);
+    } finally {
+        setChecked(true);
+    }
+    }
+
+    checkStatus();
+}, []);
+
+async function handleSubmit(e) {
+    e.preventDefault();
+    const pass = input.trim();
+
+    if (!pass) {
+    setError("Enter the passphrase.");
+    return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+    const res = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passphrase: pass }),
+    });
+
+    if (!res.ok) {
+        setError("Incorrect passphrase.");
+        return;
+    }
+
+    const data = await res.json();
+    if (data.ok) {
+        setHasAccess(true);
+        setInput("");
+    } else {
+        setError("Incorrect passphrase.");
     }
     } catch (err) {
-    console.error("Error reading admin flag:", err);
+    console.error("admin-login error:", err);
+    setError("Error talking to auth server.");
     } finally {
-    setCheckedLocal(true);
+    setLoading(false);
     }
-    }, []);
+}
 
-    function handleSubmit(e) {
-    e.preventDefault();
-    if (input.trim() === ADMIN_PASSPHRASE) {
-    localStorage.setItem(STORAGE_KEY, "true");
-    setHasAccess(true);
-    setError("");
-    } else {
-    setError("Incorrect passphrase.");
-    }
-    }
 
-    if (!checkedLocal) return null;
+if (!checked) return null;
 
-    if (!hasAccess) {
+if (!hasAccess) {
     return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 text-slate-50">
-    <div className="w-full max-w-sm rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl">
-    <p className="mb-2 text-xs uppercase tracking-[0.25em] text-cyan-400">
-            Restricted
-        </p>
-        <h1 className="mb-1 text-lg font-semibold">
-            G.R.I.D.G.X.L.Y Admin Access
+    <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center px-4">
+        <div className="w-full max-w-sm rounded-3xl border border-slate-700 bg-slate-900/90 p-6 shadow-xl">
+        <h1 className="text-sm uppercase tracking-[0.25em] text-cyan-400">
+            G.R.I.D.G.X.L.Y
         </h1>
-        <p className="mb-4 text-xs text-slate-400">
-            This area is for  Ralph only.
+        <p className="mt-2 text-lg font-semibold text-slate-50">
+            Restricted access
+        </p>
+        <p className="mt-1 text-xs text-slate-400">
+            Authentication required to continue.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-        type="password"
-        value={input}
-        onChange={(e) => {
-                setInput(e.target.value);
-                setError("");
-        }}
-        placeholder="Enter admin passphrase"
-        className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+            <input
+            type="password"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="w-full rounded-2xl border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+            placeholder="Passphrase"
+            autoComplete="off"
             />
             {error && (
-        <p className="text-xs text-red-400">
+            <p className="text-xs text-red-400">
                 {error}
-        </p>
+            </p>
             )}
+
             <button
-        type="submit"
-        className="w-full rounded-2xl bg-cyan-500 py-2 text-sm font-medium text-slate-950 transition hover:bg-cyan-400"
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-2xl bg-cyan-500 text-slate-950 text-sm font-medium py-2 hover:bg-cyan-400 disabled:opacity-60"
             >
-        Unlock
+            {loading ? "Checking…" : "Unlock"}
             </button>
-    </form>
+        </form>
 
-    <p className="mt-3 text-[10px] text-slate-500">
-            Note: front-end lock only. Don’t store real secrets here.
-    </p>
+        <p className="mt-3 text-[10px] text-slate-500">
+            No hints. Either you know it, or you don&apos;t.
+        </p>
         </div>
-    </div>
+    </main>
     );
-    }
+}
 
-    return <>{children}</>;
+
+return <>{children}</>;
 }
 
 export default ProtectedPage;
-
