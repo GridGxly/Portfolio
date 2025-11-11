@@ -118,7 +118,7 @@ return (
         </form>
 
         <p className="mt-3 text-[10px] text-slate-500">
-        Portfolio is curretnly still in development...
+        Portfolio is currently still in development...
         </p>
     </div>
     </main>
