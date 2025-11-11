@@ -118,7 +118,7 @@ return (
         </form>
 
         <p className="mt-3 text-[10px] text-slate-500">
-        No hints. If you’re meant to be here, you already know it.
+        Portfolio is curretnly still in development...
         </p>
     </div>
     </main>
