@@ -1,43 +1,37 @@
-    import { useEffect, useState } from "react";
-    import { getSessions } from "../utils/logs";
-    import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getSessions } from "../utils/logs";
+import { Link } from "react-router-dom";
 
-    function AdminView() {
+function AdminView() {
     const [logCount, setLogCount] = useState(0);
 
-useEffect(() => {
+    useEffect(() => {
     const sessions = getSessions();
-    + setLogCount(sessions.reduce((n, s) => n + (s.entries?.length || 0), 0));
-}, []);
+    setLogCount(sessions.reduce((n, s) => n + (s.entries?.length || 0), 0));
+    }, []);
 
-return (
+    return (
     <main className="min-h-screen bg-slate-950 text-slate-100 px-4 py-10">
-    <div className="mx-auto max-w-4xl space-y-6">
+        <div className="mx-auto max-w-4xl space-y-6">
         <header>
-        <p className="text-xs uppercase tracking-[0.25em] text-cyan-400">
+            <p className="text-xs uppercase tracking-[0.25em] text-cyan-400">
             G.R.I.D.G.X.L.Y • Admin
-        </p>
-        <h1 className="mt-2 text-3xl font-bold text-slate-50">
-            Admin View
-        </h1>
-        <p className="mt-1 text-sm text-slate-400">
-            Private controls and diagnostics for  Ralph.
-        </p>
+            </p>
+            <h1 className="mt-2 text-3xl font-bold text-slate-50">Admin View</h1>
+            <p className="mt-1 text-sm text-slate-400">
+            Private controls and diagnostics for Ralph.
+            </p>
         </header>
 
         <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-3xl border border-slate-700 bg-slate-900/80 p-4">
-            <p className="text-sm font-semibold text-slate-100">
-            GRIDGXLY Logs
-            </p>
+            <div className="rounded-3xl border border-slate-700 bg-slate-900/80 p-4">
+            <p className="text-sm font-semibold text-slate-100">GRIDGXLY Logs</p>
             <p className="mt-1 text-xs text-slate-400">
             Stored locally in this browser. Only visible after admin unlock.
             </p>
             <p className="mt-3 text-3xl font-bold text-cyan-400">
             {logCount}
-            <span className="ml-2 text-sm text-slate-400 font-normal">
-                entries
-            </span>
+            <span className="ml-2 text-sm text-slate-400 font-normal">entries</span>
             </p>
             <Link
             to="/logs"
@@ -48,27 +42,21 @@ return (
         </div>
 
         <div className="rounded-3xl border border-slate-700 bg-slate-900/80 p-4">
-            <p className="text-sm font-semibold text-slate-100">
-            Notes
-            </p>
+            <p className="text-sm font-semibold text-slate-100">Notes</p>
             <p className="mt-1 text-xs text-slate-400">
-            You can extend this area later with feature flags, manual
-            overrides, or whatever you want for  Ralph mode.
+            You can extend this area later with feature flags, manual overrides, etc.
             </p>
-        </div>
+            </div>
         </section>
 
         <div>
-        <Link
-            to="/"
-            className="text-xs text-slate-500 hover:text-slate-300"
-        >
+        <Link to="/" className="text-xs text-slate-500 hover:text-slate-300">
             ← Back to main site
         </Link>
         </div>
     </div>
     </main>
-);
+    );
 }
 
 export default AdminView;

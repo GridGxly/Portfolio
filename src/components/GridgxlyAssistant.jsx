@@ -28,8 +28,10 @@ useEffect(() => {
 
     recognition.onerror = (event) => {
     console.error("Speech recognition error:", event.error);
+    appendLogEntry({ type: "speech_error", payload: { error: event.error } });
     };
 
+    
     recognition.onend = () => {
     if (sessionActiveRef.current) {
         setTimeout(() => {
@@ -47,7 +49,6 @@ useEffect(() => {
     if (!last || !last.isFinal) return;
     const transcript = last[0].transcript.trim();
     if (!transcript) return;
-
     handleUserSpeech(transcript);
     };
 
@@ -56,20 +57,19 @@ useEffect(() => {
     return () => {
     try {
         recognition.stop();
-    } catch (_) {}
+    } catch {}
     recognitionRef.current = null;
     sessionActiveRef.current = false;
     };
-
 }, []);
 
-async function speak(text) {
+    async function speak(text) {
     if (!text) return;
 
     try {
     setIsSpeaking(true);
     await playElevenLabsVoice(text);
-    setTimeout(() => setIsSpeaking(false), 2000);
+      setTimeout(() => setIsSpeaking(false), 200); // quick settle
     return;
     } catch (err) {
     console.warn("ElevenLabs failed, falling back to browser TTS.");
@@ -79,6 +79,7 @@ async function speak(text) {
     if (!window.speechSynthesis) return;
 
     window.speechSynthesis.cancel();
+    try { window.speechSynthesis.getVoices(); } catch {}
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1.02;
@@ -91,7 +92,7 @@ async function speak(text) {
     window.speechSynthesis.speak(utterance);
 }
 
-async function askGridgxly(userText) {
+    async function askGridgxly(userText) {
     const messagesForApi = [
     ...convoRef.current,
     { role: "user", content: userText },
@@ -117,6 +118,7 @@ async function askGridgxly(userText) {
     const replyText =
         data.reply ||
         data.message ||
+        data.output ||
         "I couldn't quite generate a proper response. Could you try phrasing that differently?";
 
     convoRef.current = [
@@ -140,15 +142,13 @@ async function askGridgxly(userText) {
 }
 
 async function handleUserSpeech(transcript) {
-    appendLogEntry({
-    type: "voice_input",
-    payload: { transcript },
-    });
+    appendLogEntry({ type: "voice_input", payload: { transcript } });
 
     if (!hasGreeted) {
     const intro =
-        "Hi, I'm G.R.I.D.G.X.L.Y., the assistant for Ralph's portfolio. " +
-        "You can ask me about Ralph, his projects, or anything on this site.";
+        "Hello, I am GRIDGXLY — Guided Responsive Interactive Dialogue Generating experience Logic for You. " +
+        "I’m Ralph’s personal assistant and I oversee this portfolio. Welcome! " +
+        "Is there anything you’d like to learn about Ralph?";
     speak(intro);
     setHasGreeted(true);
 
@@ -159,15 +159,17 @@ async function handleUserSpeech(transcript) {
     }
 
     const t = transcript.toLowerCase();
+
+
     if (
     t.includes("talk to ralph") ||
     t.includes("speak to ralph") ||
     t.includes("contact ralph")
     ) {
     const reply =
-        "I can't put you directly on a call with Ralph, " +
+        "I can’t put you directly on a call with Ralph, " +
         "but you can leave him a message in the contact section. " +
-        "He usually replies within twenty four hours.";
+        "He usually replies within twenty-four hours.";
     speak(reply);
 
     convoRef.current = [
@@ -198,7 +200,7 @@ async function handleUserSpeech(transcript) {
 function handleOrbClick() {
     if (!speechSupported) {
     alert(
-        "Your browser doesn't support voice recognition yet. " +
+        "Your browser doesn’t support voice recognition yet. " +
         "Try Chrome or Edge on desktop for the full G.R.I.D.G.X.L.Y experience."
     );
     return;
@@ -218,8 +220,8 @@ function handleOrbClick() {
 
     if (!hasGreeted) {
         const intro =
-        "Hi, I'm G.R.I.D.G.X.L.Y. " +
-        "Tap the core, say what you'd like to know, and I'll help.";
+        "Hello, I am GRIDGXLY — Guided Responsive Interactive Dialogue Generating experience Logic for You. " +
+        "Tap the core and ask what you’d like to know.";
         speak(intro);
         setHasGreeted(true);
         convoRef.current = [
@@ -239,10 +241,9 @@ function handleOrbClick() {
 
     window.speechSynthesis?.cancel();
     }
-}
+    }
 
 const isGlowing = isActive || isSpeaking;
-
 
 return (
     <button
@@ -263,11 +264,12 @@ return (
         : "Talk to G.R.I.D.G.X.L.Y"
     }
     >
-    <img
+
+        <img
         src="/core.gif"
         alt="GRIDGXLY AI core"
         className="h-full w-full object-cover"
-    />
+        />
     </button>
 );
 }

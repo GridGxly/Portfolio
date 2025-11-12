@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 const experiences = [
-{
+    {
     title: "Knight Hacks Kickstart Mentee",
     company: "Knight Hacks",
     date: "Aug 2025 — Present",
@@ -32,21 +32,21 @@ const experiences = [
     tags: ["Teamwork", "Time Management", "Warehouse Operations", "Reliability"],
     image: "/ExperiencesImages/fedex.jpg",
     imageAlt: "FedEx warehouse environment",
-},
+    },
 ];
 
 function ExperienceCard({
-title,
-company,
-date,
-location,
-type,
-bullets,
-tags,
-image,
-imageAlt,
+    title,
+    company,
+    date,
+    location,
+    type,
+    bullets,
+    tags,
+    image,
+    imageAlt,
 }) {
-return (
+    return (
     <article
     className="
         group relative overflow-hidden
@@ -120,13 +120,11 @@ return (
         </div>
     </div>
     </article>
-);
+    );
 }
 
 export default function ExperiencePage() {
-const navigate = useNavigate();
-
-return (
+    return (
     <section className="space-y-8">
     <div className="mb-2 text-center">
         <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-grid-accent-soft">
@@ -138,18 +136,7 @@ return (
         {experiences.map((exp) => (
         <ExperienceCard key={exp.title} {...exp} />
         ))}
-    </div>
-
-
-    <div className="mt-10 flex justify-start">
-        <button
-        type="button"
-        onClick={() => navigate("/adminview")}
-        className="text-[10px] text-slate-700 opacity-40 hover:opacity-100 hover:text-cyan-400 hover:underline transition"
-        >
-        system status: <span className="font-mono">stable</span>
-        </button>
-    </div>
+        </div>
     </section>
-);
+    );
 }

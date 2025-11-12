@@ -3,12 +3,42 @@ FaPython, FaJava, FaJs, FaHtml5, FaReact, FaNodeJs, FaGitAlt,
 FaGithub, FaDocker, FaWindows, FaApple
 } from "react-icons/fa";
 import {
-SiTypescript, SiCplusplus, SiC, SiCsharp, SiPostgresql, SiR, SiNextdotjs,
+SiTypescript, SiCplusplus, SiC, SiPostgresql, SiR, SiNextdotjs,
 SiTailwindcss, SiVite, SiExpress, SiFigma, SiVercel, SiLinux, SiUnity, SiCss3
 } from "react-icons/si";
 
+
+function SkillCard({ name, Icon, color, img }) {
+    return (
+    <div
+    className="
+        skill-card skill-float flex items-center justify-center
+        rounded-2xl border border-slate-600/60 bg-slate-900/10
+        h-20 w-20 sm:h-24 sm:w-24 backdrop-blur-sm transition
+        hover:border-grid-accent-soft hover:bg-slate-900/40
+    "
+    aria-label={name}
+    title={name}
+    >
+    {Icon ? (
+        <Icon className="text-2xl sm:text-3xl" style={{ color }} />
+    ) : img ? (
+        <img
+        src={img}
+        alt={`${name} logo`}
+        className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+        loading="lazy"
+        />
+    ) : (
+        <span className="text-sm text-slate-300">{name}</span>
+    )}
+    </div>
+    );
+}
+
+
 const skillGroups = [
-{
+    {
     title: "Languages",
     skills: [
     { name: "Python", Icon: FaPython, color: "#3776AB" },
@@ -17,7 +47,10 @@ const skillGroups = [
     { name: "TypeScript", Icon: SiTypescript, color: "#3178c6" },
     { name: "C", Icon: SiC, color: "#A8B9CC" },
     { name: "C++", Icon: SiCplusplus, color: "#00599C" },
-    { name: "C#", Icon: SiCsharp, color: "#239120" },
+
+
+    { name: "C#", img: "/icons/csharp-hex.png" },
+
     { name: "SQL (PostgreSQL)", Icon: SiPostgresql, color: "#4169E1" },
     { name: "HTML", Icon: FaHtml5, color: "#e34f26" },
     { name: "CSS", Icon: SiCss3, color: "#1572B6" },
@@ -34,8 +67,8 @@ const skillGroups = [
     { name: "Vite", Icon: SiVite, color: "#646cff" },
     { name: "Express", Icon: SiExpress, color: "#ffffff" }
     ]
-},
-{
+    },
+    {
     title: "Tools & Platforms",
     skills: [
     { name: "Git", Icon: FaGitAlt, color: "#f05032" },
@@ -49,28 +82,12 @@ const skillGroups = [
     { name: "PostgreSQL", Icon: SiPostgresql, color: "#336791" },
     { name: "Unity", Icon: SiUnity, color: "#ffffff" }
     ]
-}
+    }
 ];
 
-function SkillCard({ name, Icon, color }) {
-return (
-    <div
-    className="
-        skill-card skill-float flex items-center justify-center
-        rounded-2xl border border-slate-600/60 bg-slate-900/10
-        h-20 w-20 sm:h-24 sm:w-24 backdrop-blur-sm transition
-        hover:border-grid-accent-soft hover:bg-slate-900/40
-    "
-    aria-label={name}
-    title={name}
-    >
-    <Icon className="text-2xl sm:text-3xl" style={{ color }} />
-    </div>
-);
-}
 
 export default function SkillsPage() {
-return (
+    return (
     <section className="space-y-10">
     <div className="mb-6 text-center">
         <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-grid-accent-soft">
