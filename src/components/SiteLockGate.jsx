@@ -88,7 +88,7 @@ return (
         Access required
         </h1>
         <p className="mt-1 text-xs text-slate-400">
-        This build of the portfolio is currently locked.
+        My portfolio is still being worked on, please come back later.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-4 space-y-3">
@@ -118,7 +118,7 @@ return (
         </form>
 
         <p className="mt-3 text-[10px] text-slate-500">
-        Portfolio is currently still in development...
+        come back later.........
         </p>
     </div>
     </main>
