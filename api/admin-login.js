@@ -1,40 +1,19 @@
 export default async function handler(req, res) {
-if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-}
-
-const secret = process.env.ADMIN_PASSPHRASE;
-
-if (!secret) {
-    console.error("ADMIN_PASSPHRASE is not set on the server");
-    res.status(500).json({ error: "Admin auth not configured." });
-    return;
-}
-
+if (req.method !== "POST") return res.status(405).json({ ok: false });
 const { passphrase } = req.body || {};
-
-if (!passphrase || typeof passphrase !== "string") {
-    res.status(400).json({ error: "Missing passphrase." });
-    return;
-}
-
-const ok = passphrase === secret;
-
+const ok =
+    typeof passphrase === "string" &&
+    passphrase === process.env.ADMIN_PASSPHRASE;
 if (!ok) {
 
-    await new Promise((r) => setTimeout(r, 500));
-    res.status(401).json({ ok: false });
-    return;
+    res.setHeader("X-Admin-Attempt", "fail");
+    return res.status(401).json({ ok: false });
 }
 
-
-  const maxAge = 60 * 60 * 4;
-
+  const oneWeek = 60 * 60 * 24 * 7;
 res.setHeader(
     "Set-Cookie",
-    `gridgxly_admin=1; HttpOnly; Path=/; SameSite=Lax; Max-Age=${maxAge}`
+    `grid_admin=1; Max-Age=${oneWeek}; Path=/; HttpOnly; Secure; SameSite=Lax`
 );
-
 res.status(200).json({ ok: true });
 }

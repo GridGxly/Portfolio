@@ -75,17 +75,3 @@ animation-delay: 0.4s;
 .skill-grid .skill-card:nth-child(3n) {
 animation-delay: 0.8s;
 }
-
-@keyframes skill-float {
-0%,
-100% {
-transform: translateY(0);
-}
-50% {
-transform: translateY(-6px);
-}
-}
-
-.skill-float {
-animation: skill-float 6s ease-in-out infinite;
-}
