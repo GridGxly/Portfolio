@@ -118,7 +118,7 @@ return (
         </form>
 
         <p className="mt-3 text-[10px] text-slate-500">
-        come back later.........
+        come back later..........
         </p>
     </div>
     </main>
