@@ -11,7 +11,6 @@ try {
     const { messages } = req.body || {};
     if (!Array.isArray(messages)) return res.status(400).json({ error: "messages must be an array" });
 
-
     let site = "";
     try {
     const mod = await import("../src/data/site-context.js");
@@ -40,13 +39,10 @@ try {
     resp.content?.[0]?.text ??
     "I’m not sure—mind rephrasing?";
 
-    
-    const requestId =
-    resp.id || resp.request_id || resp.headers?.get?.("x-request-id") || null;
-
+    const requestId = resp.id || resp.request_id || resp.headers?.get?.("x-request-id") || null;
     res.status(200).json({ reply, requestId, model });
     } catch (e) {
     console.error("gridgxly-chat error:", e);
     res.status(500).json({ error: "chat failed" });
     }
-    }
+}
