@@ -1,9 +1,9 @@
     export default function HomePage() {
     const images = [
-    "./src/public/memes/meme1.png",
-    "./src/public/memes/meme2.png",
-    "./src/public/memes/meme3.png",
-    "./src/public/memes/meme4.png",
+    "memes/meme1.png",
+    "memes/meme2.png",
+    "memes/meme3.png",
+    "memes/meme4.png",
     ];
 
     return (
