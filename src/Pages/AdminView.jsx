@@ -1,13 +1,13 @@
     import { useEffect, useState } from "react";
-    import { getLogEntries } from "../utils/logs";
+    import { getSessions } from "../utils/logs";
     import { Link } from "react-router-dom";
 
     function AdminView() {
     const [logCount, setLogCount] = useState(0);
 
 useEffect(() => {
-    const logs = getLogEntries();
-    setLogCount(logs.length);
+    const sessions = getSessions();
+    + setLogCount(sessions.reduce((n, s) => n + (s.entries?.length || 0), 0));
 }, []);
 
 return (

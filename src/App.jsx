@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef } from "react";
@@ -13,6 +12,7 @@ import AdminView from "./Pages/AdminView";
 import LogsPage from "./Pages/LogsPage";
 import ProtectedPage from "./components/ProtectedPage";
 import SiteLockGate from "./components/SiteLockGate";
+import ContactPage from "./Pages/ContactPage";
 
 function PageTransition({ children }) {
   return (
@@ -37,7 +37,7 @@ function Footer() {
     clearTimeout(t.current);
     if (clicks.current >= 3) {
       clicks.current = 0;
-      navigate("/adminview"); // ProtectedPage handles the gate
+      navigate("/adminview"); 
       return;
     }
     t.current = setTimeout(() => (clicks.current = 0), 600);
@@ -68,6 +68,7 @@ function AppShell() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
+            <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
             <Route path="/experience" element={<PageTransition><ExperiencePage /></PageTransition>} />
             <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
             <Route path="/skills" element={<PageTransition><SkillsPage /></PageTransition>} />

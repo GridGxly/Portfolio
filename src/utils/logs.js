@@ -1,83 +1,44 @@
-const LOGS_KEY = "gridgxly_logs_v2";
-const SESSION_ID_KEY = "gridgxly_session_id";
-const LAST_ACTIVE_KEY = "gridgxly_last_active";
-const SESSION_TIMEOUT_MS = 20 * 60 * 1000; // 20 min idle → new session
+const KEY = "gridgxly_sessions_v1";
 
-function nowMs() { return Date.now(); }
-function readAll() {
-try { return JSON.parse(localStorage.getItem(LOGS_KEY) || "[]"); }
-catch { return []; }
+function read() {
+try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; }
 }
-function writeAll(arr) {
-try { localStorage.setItem(LOGS_KEY, JSON.stringify(arr)); } catch {}
+function write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch {} }
+
+function ensureOpenSession() {
+const all = read();
+const last = all[all.length - 1];
+const now = Date.now();
+  if (!last || (now - (last.lastActivity || last.createdAt)) > 30 * 60 * 1000) {
+    const s = { id: crypto.randomUUID?.() || String(now), createdAt: now, lastActivity: now, entries: [] };
+    all.push(s);
+    write(all);
+    return s;
 }
-
-function getOrStartSessionId() {
-try {
-    const t = nowMs();
-    const last = Number(localStorage.getItem(LAST_ACTIVE_KEY) || 0);
-    let sid = localStorage.getItem(SESSION_ID_KEY);
-
-    if (!sid || !last || t - last > SESSION_TIMEOUT_MS) {
-    sid = "s_" + t + "_" + Math.random().toString(36).slice(2, 8);
-    localStorage.setItem(SESSION_ID_KEY, sid);
-
-    const entries = readAll();
-    entries.push({
-        id: t,
-        timestamp: new Date(t).toISOString(),
-        type: "session_start",
-        sessionId: sid,
-    });
-    writeAll(entries);
-    }
-
-    localStorage.setItem(LAST_ACTIVE_KEY, String(t));
-    return sid;
-} catch {
-    return "s_fallback";
-}
+return last;
 }
 
 export function appendLogEntry(entry) {
+const all = read();
+const s = ensureOpenSession();
+s.entries.push({ ts: Date.now(), ...entry });
+s.lastActivity = Date.now();
+write(all);
+}
+
+export function getSessions() { return read(); }
+export function clearLogs() { localStorage.removeItem(KEY); }
+
+
+(function migrate() {
+const OLD = "gridgxly_logs_v1";
 try {
-    const t = nowMs();
-    const base = {
-    id: t,
-    timestamp: new Date(t).toISOString(),
-    sessionId: getOrStartSessionId(),
-    ...entry,
-    };
-    const entries = readAll();
-    entries.push(base);
-    writeAll(entries);
-} catch (err) {
-    console.error("Error appending log entry:", err);
-}
-}
-
-export function getLogEntries() { return readAll(); }
-
-export function getSessions() {
-const entries = readAll();
-const map = new Map();
-for (const e of entries) {
-    const sid = e.sessionId || "no-session";
-    if (!map.has(sid)) map.set(sid, { id: sid, createdAt: e.timestamp, entries: [] });
-    map.get(sid).entries.push(e);
-}
-const sessions = Array.from(map.values()).map(s => {
-    s.entries.sort((a,b)=>a.id-b.id);
-    s.createdAt = s.entries[0]?.timestamp || s.createdAt;
-    return s;
-}).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
-return sessions;
-}
-
-export function clearLogs() {
-try {
-    localStorage.removeItem(LOGS_KEY);
-    localStorage.removeItem(SESSION_ID_KEY);
-    localStorage.removeItem(LAST_ACTIVE_KEY);
+    const raw = localStorage.getItem(OLD);
+    if (!raw) return;
+    const items = JSON.parse(raw);
+    const now = Date.now();
+    const s = { id: String(now), createdAt: now, lastActivity: now, entries: items };
+    write([s]);
+    localStorage.removeItem(OLD);
 } catch {}
-}
+})();
