@@ -53,7 +53,7 @@ return (
             </p>
             <p className="mt-1 text-xs text-slate-400">
             You can extend this area later with feature flags, manual
-            overrides, or whatever you want for Master Ralph mode.
+            overrides, or whatever you want for  Ralph mode.
             </p>
         </div>
         </section>

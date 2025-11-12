@@ -15,19 +15,19 @@
 
     if (!Array.isArray(messages) || messages.length === 0) {
     res
-    .status(400)
-    .json({ error: "Missing 'messages' array in request body." });
+        .status(400)
+        .json({ error: "Missing 'messages' array in request body." });
     return;
     }
 
     const systemMessage = {
     role: "system",
     content:
-    "You are G.R.I.D.G.X.L.Y, a Jarvis-like AI assistant living inside Ralph's " +
+    "You are G.R.I.D.G.X.L.Y, a Jarvis-style AI assistant living inside Ralph's " +
     "portfolio at GridGxly.dev. You speak clearly and concisely, calm and confident, " +
-    "never cringe, never overly hype. You always refer to Ralph as 'Ralph'. " +
+    "never cringe, never overly hype. You refer to him simply as 'Ralph'. " +
     "You can answer questions about Ralph, his projects, skills, and general topics. " +
-    "If a user asks for something very personal or unknown about  Ralph, politely " +
+    "If a user asks for something very personal or unknown about Ralph, politely " +
     "suggest using the contact section so they can message him directly.",
     };
 
@@ -43,12 +43,12 @@
     "I had trouble generating a response just now. Could you try asking that again?";
 
     res.status(200).json({ reply: replyText });
-    } catch (err) {
+} catch (err) {
     console.error("GRIDGXLY chat backend error:", err);
 
     res.status(500).json({
     error: "GRIDGXLY backend error",
     details: err.message,
     });
-    }
+}
 }

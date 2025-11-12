@@ -8,7 +8,7 @@ const experiences = [
     location: "Orlando, FL · On-site",
     type: "Student program",
     bullets: [
-    "Accepted  for Knight Hacks' Kickstart mentorship program focused on real projects and internship prep.",
+    "Accepted for Knight Hacks' Kickstart mentorship program focused on real projects and internship prep.",
     "Attended technical workshops and mentorship sessions led by Knight Hacks members.",
     "Collaborated with other mentees on small projects and hackathon ideas.",
     "Practiced core skills in React, TypeScript, Git/GitHub, and modern web tooling.",
@@ -140,11 +140,12 @@ return (
         ))}
     </div>
 
-    <div className="mt-8 flex justify-center">
+
+    <div className="mt-10 flex justify-start">
         <button
         type="button"
         onClick={() => navigate("/adminview")}
-        className="text-[11px] text-slate-600 hover:text-cyan-400 hover:underline transition"
+        className="text-[10px] text-slate-700 opacity-40 hover:opacity-100 hover:text-cyan-400 hover:underline transition"
         >
         system status: <span className="font-mono">stable</span>
         </button>
