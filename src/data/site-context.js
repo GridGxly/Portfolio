@@ -3,11 +3,12 @@ name: "Ralph Clavens Love Noel",
 tagline: "Valencia College • Seneff Honors • CS transfer pathway → UCF BHC",
 location: "Orlando, FL, USA",
 summary:
-    "Early-career SWE focused on React, Vite, Tailwind, Node/Express, and AI agents. Active in hackathons (ShellHacks, KnightHacks)."
+    "Computer Science. Active in hackathons (ShellHacks, KnightHacks)."
 };
 
-export const projects = [
-{
+
+    export const projects = [
+    {
     slug: "portfolio",
     title: "Portfolio",
     subtitle: "Personal site",
@@ -23,7 +24,7 @@ export const projects = [
     details: [
     "Responsive, keyboard-accessible components.",
     "Animated micro-interactions and theming.",
-    "Updating my proffesional growth in my career"
+    "Updating my professional growth in my career"
     ],
     oneLiner:
     "Personal portfolio with an embedded voice assistant and clean, responsive UI."
@@ -45,9 +46,8 @@ export const projects = [
     "Wishlists (future) and Footprints (past).",
     "Seeded itineraries and collaborative boards (planned)."
     ],
-    oneLiner:
-    "Travel logging + recommendations with modern React tooling."
-},
+    oneLiner: "Travel logging + recommendations with modern React tooling."
+    },
 {
     slug: "finbridgev2",
     title: "FinBridge V2",
@@ -78,7 +78,7 @@ export const skills = [
 ];
 
 export const experiences = [
-{
+    {
     title: "Knight Hacks Kickstart Mentee",
     company: "Knight Hacks",
     date: "Aug 2025 — Present",
@@ -93,7 +93,7 @@ export const experiences = [
     tags: ["Knight Hacks", "Web Dev", "Mentorship", "Hackathons"],
     image: "/ExperiencesImages/knight-hacks.svg",
     imageAlt: "Knight Hacks Kickstart program event"
-},
+    },
 {
     title: "Package Handler",
     company: "FedEx",
@@ -106,22 +106,25 @@ export const experiences = [
     "Coordinated with team members to hit tight timing and accuracy targets.",
     "Built strong habits around reliability, time management, and attention to detail."
     ],
-    tags: ["Teamwork", "Time Management", "Warehouse Operations", "Reliability, Attention to detail"],
+    tags: ["Teamwork", "Time Management", "Warehouse Operations", "Reliability"],
     image: "/ExperiencesImages/fedex.jpg",
     imageAlt: "FedEx warehouse environment"
-}
+    }
 ];
 
 
 export function toPrompt() {
-const projLines = projects
+    const projLines = projects
     .map(p => `• ${p.title} — ${p.oneLiner} (Stack: ${p.stack.join(", ")})`)
     .join("\n");
 
-return [
+    return [
     `BIO: ${bio.name} — ${bio.tagline} — ${bio.location}.`,
     `SUMMARY: ${bio.summary}`,
     `PROJECTS:\n${projLines}`,
-    `SKILLS: ${skills.join(", ")}`,
-].join("\n");
+    `SKILLS: ${skills.join(", ")}`
+    ].join("\n");
 }
+
+
+export default { toPrompt, bio, projects, skills, experiences };
