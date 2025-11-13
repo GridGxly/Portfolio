@@ -11,7 +11,7 @@ if (!apiKey) {
 }
 
 const client = new OpenAI({ apiKey });
-const model = process.env.OPENAI_MODEL || "gpt-5"; 
+const model = process.env.OPENAI_MODEL || "gpt-4o-mini"; 
 
 
 let site = "";
