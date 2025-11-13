@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { speakQueued, stopAllAudio } from "../utils/voice";
 import { callChat } from "../utils/chat";
-
-
+import { projects } from "../data/site-context";
 
 export default function GridgxlyAssistant() {
 const [isActive, setIsActive] = useState(false);
@@ -11,7 +10,7 @@ const [speechOK, setSpeechOK] = useState(true);
 
 const SR = useRef(null);
 const convo = useRef([]);
-const greeted = useRef(false); 
+const greeted = useRef(false);
 const shouldResume = useRef(false);
 const speakingFlag = useRef(false);
 const lastHeardAt = useRef(0);
@@ -34,14 +33,14 @@ const beginIdleClock = () => {
         await say("Is that all?");
     }
     }, 1000);
-};
+    };
 
-const clearIdleClock = () => {
+    const clearIdleClock = () => {
     if (idleTimer.current) clearInterval(idleTimer.current);
     idleTimer.current = null;
-};
+    };
 
-async function say(text) {
+    async function say(text) {
     if (!text) return;
     speakingFlag.current = true;
     setIsSpeaking(true);
@@ -51,7 +50,7 @@ async function say(text) {
     } finally {
     setIsSpeaking(false);
     speakingFlag.current = false;
-    if (isActive) setTimeout(startListening, 180);
+    if (isActive) setTimeout(startListening, 220);
     }
     }
 
@@ -62,32 +61,49 @@ async function say(text) {
     lastHeardAt.current = Date.now();
     askedFollowUp.current = false;
     beginIdleClock();
-}
+    }
 
     function stopListening() {
     shouldResume.current = false;
     try { SR.current.abort(); } catch {}
     clearIdleClock();
-}
+    }
+
+
+    async function narrateForPath(path) {
+    if (path === "/projects") {
+    const first = projects?.[0];
+    const line = first
+        ? `This is the Projects page. For example, ${first.title} — ${first.oneLiner}. Want details on a project?`
+        : "This is the Projects page. Ask for any project and I’ll summarize it.";
+    await say(line);
+    } else if (path === "/experience") {
+    await say("This is the Experience page. Ask me for a quick overview or for a specific role.");
+    } else if (path === "/skills") {
+    await say("This is the Skills page. I can highlight the stack I use most, or compare tools if you’d like.");
+    } else if (path === "/contact") {
+    await say("Here’s the contact section. You can reach me via LinkedIn or email—want me to read them out?");
+    }
+    }
 
     async function handleTranscript(raw) {
     const t = (raw || "").trim();
-    if (!t || t.length < 4) return;
+    if (!t || t.length < 3) return;
     const lower = t.toLowerCase();
+
 
     if (lower.includes("guided responsive interactive dialogue generating") || lower.startsWith("hello i am gridgxly")) return;
 
     lastHeardAt.current = Date.now();
     askedFollowUp.current = false;
 
+
     if (!greeted.current) {
     greeted.current = true;
     try { localStorage.setItem("ggxly_greeted", "1"); } catch {}
-    await say(
-        "Hey—I'm GRIDGXLY, short for Guided Responsive Interactive Dialogue Generating Experience Logic for You. " +
-        "I'm Ralph's assistant. Ask me anything about him. When you're done, tap the orb again to end the call."
-    );
+    await say("Hey—I'm GRIDGXLY, Ralph’s assistant for this portfolio. Ask me about his projects, experience, or skills. When you’re done, tap the orb to hang up.");
     }
+
 
     if (awaitingDone.current) {
     awaitingDone.current = false;
@@ -96,17 +112,39 @@ async function say(text) {
         try { window.location.href = "/contact"; } catch {}
         toggle();
         return;
-    }
+        }
     }
 
-    if (/\b(contact|reach|email)\b/i.test(lower)) { await say("Opening the contact section."); try {
-    const el = document.getElementById("contact");
-    if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 300);
-    else window.location.href = "/contact";
-    } catch {} return; }
-    if (/\bprojects?\b/i.test(lower)) { await say("Jumping to Projects."); window.location.href="/projects"; return; }
-    if (/\bexperience\b/i.test(lower)) { await say("Opening Experience."); window.location.href="/experience"; return; }
-    if (/\bskills?\b/i.test(lower)) { await say("Heading to Skills."); window.location.href="/skills"; return; }
+
+    if (/\b(contact|reach|email)\b/i.test(lower)) {
+    await say("Opening the contact section.");
+    try {
+        const el = document.getElementById("contact");
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 250);
+        else window.location.href = "/contact";
+    } catch {}
+    await narrateForPath("/contact");
+    return;
+    }
+    if (/\bprojects?\b/i.test(lower)) {
+    await say("Jumping to Projects.");
+    window.location.href = "/projects";
+    setTimeout(() => narrateForPath("/projects"), 400);
+    return;
+    }
+    if (/\bexperience\b/i.test(lower)) {
+    await say("Opening Experience.");
+    window.location.href = "/experience";
+    setTimeout(() => narrateForPath("/experience"), 400);
+    return;
+    }
+    if (/\bskills?\b/i.test(lower)) {
+    await say("Heading to Skills.");
+    window.location.href = "/skills";
+    setTimeout(() => narrateForPath("/skills"), 400);
+    return;
+    }
+
 
     const reply = await callChat(convo.current, t);
     convo.current = [...convo.current, { role: "user", content: t }, { role: "assistant", content: reply }];
@@ -115,7 +153,7 @@ async function say(text) {
 
     function toggle() {
     if (!speechOK) {
-    alert("Voice needs Chrome/Edge desktop for best results.");
+    alert("Voice needs Chrome or Edge desktop for best results.");
     return;
     }
     if (!isActive) {
@@ -126,8 +164,7 @@ async function say(text) {
     stopListening();
     try { window.speechSynthesis?.cancel(); } catch {}
     try {
-        const audios = document.querySelectorAll("audio[data-ggxly]");
-        audios.forEach(a => { try { a.pause(); a.currentTime = 0; } catch {} });
+        document.querySelectorAll("audio[data-ggxly]").forEach(a => { try { a.pause(); a.currentTime = 0; } catch {} });
     } catch {}
     }
     }
@@ -135,6 +172,7 @@ async function say(text) {
     useEffect(() => {
     const SRCls = (typeof window !== "undefined") && (window.SpeechRecognition || window.webkitSpeechRecognition);
     if (!SRCls) { setSpeechOK(false); return; }
+
     const rec = new SRCls();
     rec.lang = "en-US";
     rec.continuous = true;
@@ -147,10 +185,10 @@ async function say(text) {
     handleTranscript(last[0]?.transcript || "");
     };
 
-    rec.onerror = () => {};
+    rec.onerror = () => {}; 
     rec.onend = () => {
     if (shouldResume.current && !speakingFlag.current) {
-        try { rec.start(); } catch {}
+        setTimeout(() => { try { rec.start(); } catch {} }, 180);
     }
     };
 

@@ -13,18 +13,19 @@ export default async function handler(req) {
     method: "POST",
     headers: { "xi-api-key": key, "Content-Type": "application/json", "Accept": "audio/mpeg" },
     body: JSON.stringify({
-        text, model_id: "eleven_multilingual_v2",
-        voice_settings: { stability: 0.55, similarity_boost: 0.75, style: 0.2, use_speaker_boost: true },
-    }),
+        text,
+        model_id: "eleven_multilingual_v2",
+        voice_settings: { stability: 0.55, similarity_boost: 0.75, style: 0.2, use_speaker_boost: true }
+    })
     });
 
-    if (!r.ok) {
-    const errTxt = await r.text().catch(() => "");
-    return new Response(`tts fail: ${r.status} ${errTxt}`, { status: 502 });
-    }
+    if (!r.ok) return new Response(`tts fail: ${r.status}`, { status: 502 });
 
     const bytes = await r.arrayBuffer();
-    return new Response(bytes, { status: 200, headers: { "Content-Type": "audio/mpeg", "Cache-Control": "no-store" } });
+    return new Response(bytes, {
+    status: 200,
+    headers: { "Content-Type": "audio/mpeg", "Cache-Control": "no-store" }
+    });
     } catch (e) {
     return new Response(`edge error: ${e.message}`, { status: 500 });
     }
