@@ -106,7 +106,7 @@ export const experiences = [
     "Coordinated with team members to hit tight timing and accuracy targets.",
     "Built strong habits around reliability, time management, and attention to detail."
     ],
-    tags: ["Teamwork", "Time Management", "Warehouse Operations", "Reliability"],
+    tags: ["Teamwork", "Time Management", "Warehouse Operations", "Reliability, Attention to detail"],
     image: "/ExperiencesImages/fedex.jpg",
     imageAlt: "FedEx warehouse environment"
 }
