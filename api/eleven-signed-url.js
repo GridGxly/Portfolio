@@ -9,11 +9,15 @@ export default async function handler(req, res) {
     const r = await fetch(`https://api.elevenlabs.io/v1/convai/conversation/get-signed-url?agent_id=${agentId}`, {
     headers: { "xi-api-key": apiKey }
     });
+
     if (!r.ok) {
     const text = await r.text();
     return res.status(r.status).json({ error: "ELEVEN_SIGN_URL_FAILED", details: text });
     }
+
     const { signed_url } = await r.json();
+    if (!signed_url) return res.status(500).json({ error: "No signed_url returned" });
+
     const url = new URL(signed_url);
     return res.status(200).json({ signedUrl: url.toString() });
     } catch (e) {
