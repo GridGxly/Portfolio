@@ -3,6 +3,8 @@ import BrainrotBackdrop from "./BrainrotBackdrop";
 import BrainrotPlayer from "./BrainrotPlayer";
 import { OVERLAY_RIGHT, OVERLAY_WRONG, SFX } from "../utils/brainrot";
 
+const SITE_LOCK_ENABLED = import.meta.env.VITE_SITE_LOCK_ENABLED === "true";
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function postJSON(url, body) {
 try {
@@ -41,6 +43,9 @@ return (
 }
 
 export default function SiteLockGate({ children }) {
+    if (!SITE_LOCK_ENABLED) {
+    return children;
+}
 const [pass, setPass] = useState("");
 const [busy, setBusy] = useState(false);
 const [noNoOpen, setNoNoOpen] = useState(false);
