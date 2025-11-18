@@ -74,20 +74,26 @@ function Layout({ children }) {
       <div className="mt-10 h-px w-full bg-[#1f2937]" />
 
       <footer className="py-6 text-center text-xs text-slate-400">
-        <p className="flex items-center justify-center gap-1">
-          <span>Made with 💙</span>
-          <button
-            type="button"
-            onClick={handleSecretClick}
-            className="relative px-1 text-cyan-300 underline-offset-2 hover:text-cyan-200 hover:underline"
-          >
-            by Ralph
-          </button>
-        </p>
-        <p className="mt-1">
-          © {currentYear} Ralph Clavens Love Noel. All rights reserved.
-        </p>
-      </footer>
+  <p className="flex items-center justify-center gap-1">
+    <span>Made with</span>
+    <img
+      src="/HeartGif.gif"
+      alt="Animated blue heart"
+      className="h-4 w-4"
+    />
+    <button
+      type="button"
+      onClick={handleSecretClick}
+      className="relative px-1 text-cyan-300 underline-offset-2 hover:text-cyan-200 hover:underline"
+    >
+      by Ralph
+    </button>
+  </p>
+  <p className="mt-1">
+    © {currentYear} Ralph Clavens Love Noel. All rights reserved.
+  </p>
+</footer>
+
 
       <GridgxlyAssistant />
       <OverlayChips />
