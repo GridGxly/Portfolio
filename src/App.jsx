@@ -1,68 +1,160 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import GridgxlyAssistant from "./components/GridgxlyAssistant";
 import OverlayChips from "./components/OverlayChips";
+import ProtectedPage from "./components/ProtectedPage";
+
+
 import HomePage from "./Pages/HomePage";
 import ExperiencePage from "./Pages/ExperiencePage";
 import ProjectsPage from "./Pages/ProjectsPage";
 import SkillsPage from "./Pages/SkillsPage";
-import AdminView from "./Pages/AdminView";
 import LogsPage from "./Pages/LogsPage";
-import ProtectedPage from "./components/ProtectedPage";
-import SiteLockGate from "./components/SiteLockGate";
 import ContactPage from "./Pages/ContactPage";
 
-function PageTransition({ children }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25, ease: "easeOut" }}>
-      {children}
-    </motion.div>
-  );
-}
 
-function Footer() {
-  return (
-    <footer className="mt-16 border-t border-grid-border/60 pt-6 text-center text-xs text-neutral-400 sm:text-sm">
-      <p>© {new Date().getFullYear()} Ralph Clavens Love Noel. All rights reserved.</p>
-    </footer>
-  );
-}
+function Layout({ children }) {
+  const navigate = useNavigate();
+  const [clickCount, setClickCount] = useState(0);
+  const [lastClick, setLastClick] = useState(0);
 
-function AppShell() {
-  const location = useLocation();
+  const handleSecretClick = () => {
+    const now = Date.now();
+
+    // to make sure nobody thats not me accidently comes to the protectedpage, this will make it so if the last click was too long ago the combo will reset
+    if (now - lastClick > 800) {
+      setClickCount(1);
+      setLastClick(now);
+      return;
+    }
+
+    const next = clickCount + 1;
+    setLastClick(now);
+
+    if (next >= 3) {
+      setClickCount(0);
+      navigate("/protected");
+    } else {
+      setClickCount(next);
+    }
+  };
+
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div id="top" className="min-h-screen bg-grid-bg text-grid-text">
+    <div className="flex min-h-screen flex-col bg-[#020617] text-slate-100">
       <Navbar />
-      <main className="mx-auto w-full max-w-5xl px-6 pt-28 pb-16">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
-            <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-            <Route path="/experience" element={<PageTransition><ExperiencePage /></PageTransition>} />
-            <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
-            <Route path="/skills" element={<PageTransition><SkillsPage /></PageTransition>} />
-            <Route path="/adminview" element={<ProtectedPage><AdminView /></ProtectedPage>} />
-            <Route path="/logs" element={<ProtectedPage><LogsPage /></ProtectedPage>} />
-            <Route path="*" element={<PageTransition><div className="text-slate-300">404 — Not Found</div></PageTransition>} />
-          </Routes>
-        </AnimatePresence>
-        <Footer />
+
+
+      <main className="flex-1">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+          {children}
+        </div>
       </main>
 
 
-      <OverlayChips />
+      <div className="mt-10 h-px w-full bg-[#1f2937]" />
+
+
+      <footer className="py-6 text-center text-xs text-slate-400">
+        <p className="flex items-center justify-center gap-1">
+          <span>Made with 💙</span>
+          <button
+            type="button"
+            onClick={handleSecretClick}
+            className="relative px-1 text-cyan-300 underline-offset-2 hover:text-cyan-200 hover:underline"
+          >
+            by Ralph
+          </button>
+        </p>
+        <p className="mt-1">
+          © {currentYear} Ralph Clavens Love Noel. All rights reserved.
+        </p>
+      </footer>
+
+
       <GridgxlyAssistant />
+      <OverlayChips />
     </div>
   );
 }
 
 export default function App() {
   return (
-    <SiteLockGate>
-      <BrowserRouter>
-        <AppShell />
-      </BrowserRouter>
-    </SiteLockGate>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <HomePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/experience"
+          element={
+            <Layout>
+              <ExperiencePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <Layout>
+              <ProjectsPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/skills"
+          element={
+            <Layout>
+              <SkillsPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/logs"
+          element={
+            <Layout>
+              <LogsPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Layout>
+              <ContactPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/protected"
+          element={
+            <Layout>
+              <ProtectedPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Layout>
+              <HomePage />
+            </Layout>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }

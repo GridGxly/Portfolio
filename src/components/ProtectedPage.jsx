@@ -1,144 +1,124 @@
 import { useEffect, useState } from "react";
+import AdminView from "../Pages/AdminView";
 
-const IS_DEV = import.meta.env.DEV;
-
-function ProtectedPage({ children }) {
-const [checked, setChecked] = useState(false);
-const [hasAccess, setHasAccess] = useState(false);
-const [input, setInput] = useState("");
+export default function ProtectedPage() {
+const [loading, setLoading] = useState(true);
+const [isAdmin, setIsAdmin] = useState(false);
+const [passphrase, setPassphrase] = useState("");
 const [error, setError] = useState("");
-const [loading, setLoading] = useState(false);
 
-useEffect(() => {
+  // this will check if the admin cookie is alredy set
+    useEffect(() => {
+    let cancelled = false;
+
     async function checkStatus() {
     try {
         const res = await fetch("/api/admin-status");
-        if (res.ok) {
+        if (!res.ok) {
+        throw new Error("Status check failed");
+        }
         const data = await res.json();
-        if (data.ok) {
-            setHasAccess(true);
+        if (!cancelled) {
+        setIsAdmin(!!data.ok);
         }
-        }
-    } catch (err) {
+        } catch (err) {
         console.error("admin-status error:", err);
-    } finally {
-        setChecked(true);
-    }
+        } finally {
+        if (!cancelled) {
+        setLoading(false);
+        }
+        }
     }
 
-    if (!IS_DEV) {
+        checkStatus();
 
-    checkStatus();
-    } else {
-    
-    setChecked(true);
-    }
-}, []);
+    return () => {
+    cancelled = true;
+    };
+    }, []);
 
-async function handleSubmit(e) {
+    async function handleSubmit(e) {
     e.preventDefault();
-    const pass = input.trim();
-
-    if (!pass) {
-    setError("Enter the passphrase.");
-    return;
-    }
-
-    setLoading(true);
     setError("");
 
     try {
     const res = await fetch("/api/admin-login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passphrase: pass }),
-    });
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ passphrase }),
+        });
 
-    if (res.ok) {
-        const data = await res.json();
-        if (data.ok) {
-        setHasAccess(true);
-        setInput("");
-        setError("");
-        return;
-        }
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok && data.ok) {
+        setIsAdmin(true);
+        setPassphrase("");
+    } else {
+        setError("Incorrect passphrase. Try again.");
     }
-
-    
-    if (IS_DEV && pass === "1972") {
-        console.warn("DEV BYPASS: granting admin access locally.");
-        setHasAccess(true);
-        setInput("");
-        setError("");
-        return;
-    }
-
-    setError("Incorrect passphrase.");
     } catch (err) {
     console.error("admin-login error:", err);
-
-    if (IS_DEV && pass === "1972") {
-        console.warn("DEV BYPASS (network error): granting admin access locally.");
-        setHasAccess(true);
-        setInput("");
-        setError("");
-    } else {
-        setError("Error talking to auth server.");
+    setError("Something went wrong. Please try again.");
     }
-    } finally {
-    setLoading(false);
     }
-}
 
-if (!checked && !IS_DEV) return null;
 
-if (!hasAccess) {
+    if (loading) {
     return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center px-4">
-        <div className="w-full max-w-sm rounded-3xl border border-slate-700 bg-slate-900/90 p-6 shadow-xl">
-        <h1 className="text-sm uppercase tracking-[0.25em] text-cyan-400">
-            G.R.I.D.G.X.L.Y
-        </h1>
-        <p className="mt-2 text-lg font-semibold text-slate-50">
-            Restricted access
-        </p>
-        <p className="mt-1 text-xs text-slate-400">
-            Authentication required to continue.
-        </p>
+    <section className="flex min-h-[60vh] items-center justify-center">
+        <p className="text-sm text-slate-400">Checking access…</p>
+    </section>
+    );
+    }
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+
+    if (!isAdmin) {
+    return (
+    <section className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center gap-4 px-4">
+        <header className="space-y-1 text-center">
+        <p className="text-xs uppercase tracking-[0.25em] text-cyan-400">
+            GRIDGXLY • Admin
+        </p>
+            <h1 className="text-2xl font-semibold text-slate-50">
+            Admin access only
+            </h1>
+            <p className="text-sm text-slate-400">
+            Enter the secret passphrase to get to AdminView.
+        </p>
+        </header>
+
+        <form
+        onSubmit={handleSubmit}
+        className="space-y-3 rounded-2xl border border-slate-700 bg-slate-900/70 p-4"
+        >
+        <label className="block text-sm text-slate-200">
+            Passphrase
             <input
             type="password"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="w-full rounded-2xl border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
-            placeholder="Passphrase"
+            className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+            value={passphrase}
+            onChange={(e) => setPassphrase(e.target.value)}
             autoComplete="off"
             />
-            {error && (
-            <p className="text-xs text-red-400">
-                {error}
-            </p>
-            )}
+            </label>
+
+            {error && <p className="text-xs text-red-400">{error}</p>}
 
             <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-2xl bg-cyan-500 text-slate-950 text-sm font-medium py-2 hover:bg-cyan-400 disabled:opacity-60"
+            className="mt-1 inline-flex w-full items-center justify-center rounded-lg bg-cyan-500 px-3 py-2 text-sm font-medium text-slate-950 hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
             >
-            {loading ? "Checking…" : "Unlock"}
+            Unlock admin view
             </button>
         </form>
 
-        <p className="mt-3 text-[10px] text-slate-500">
-            No hints. Either you know it, or you don&apos;t.
+        <p className="text-center text-xs text-slate-500">
+        This route is not for you. Click "GridGxly.Dev" to get back to the portfolio!
         </p>
-        </div>
-    </main>
+    </section>
     );
-}
+    }
 
-return <>{children}</>;
-}
 
-export default ProtectedPage;
+return <AdminView />;
+}
