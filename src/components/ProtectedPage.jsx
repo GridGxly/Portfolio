@@ -113,7 +113,7 @@ const [error, setError] = useState("");
         </form>
 
         <p className="text-center text-xs text-slate-500">
-        This route is not for you. Click "GridGxly.Dev" to get back to the portfolio!
+        This page is not for you. Click "GridGxly.Dev" to get back to the portfolio!
         </p>
     </section>
     );
