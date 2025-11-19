@@ -12,7 +12,6 @@ import Navbar from "./components/Navbar";
 import GridgxlyAssistant from "./components/GridgxlyAssistant";
 import OverlayChips from "./components/OverlayChips";
 import ProtectedPage from "./components/ProtectedPage";
-
 import HomePage from "./Pages/HomePage";
 import ExperiencePage from "./Pages/ExperiencePage";
 import ProjectsPage from "./Pages/ProjectsPage";
@@ -121,6 +120,27 @@ export default function App() {
             </Layout>
           }
         />
+    <Route
+    path="/console"
+    element={
+    <ProtectedPage>
+    <SiteLockGate>
+    <AdminView />
+    </SiteLockGate>
+    </ProtectedPage>
+  }
+/>
+<Route
+  path="/logs"
+  element={
+    <ProtectedPage>
+      <SiteLockGate>
+        <LogsPage />
+      </SiteLockGate>
+    </ProtectedPage>
+  }
+/>
+
         <Route
           path="/projects"
           element={
