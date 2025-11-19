@@ -1,6 +1,6 @@
 export const bio = {
 name: "Ralph Clavens Love Noel",
-tagline: "Valencia College • Seneff Honors • CS transfer pathway → UCF BHC",
+tagline: "Valencia College • Seneff Honors • CS transfer pathway",
 location: "Orlando, FL, USA",
 summary:
     "Computer Science. Active in hackathons (ShellHacks, KnightHacks)."
@@ -118,12 +118,12 @@ export function toPrompt() {
     .map(p => `• ${p.title} — ${p.oneLiner} (Stack: ${p.stack.join(", ")})`)
     .join("\n");
 
-    return [
+return [
     `BIO: ${bio.name} — ${bio.tagline} — ${bio.location}.`,
     `SUMMARY: ${bio.summary}`,
     `PROJECTS:\n${projLines}`,
     `SKILLS: ${skills.join(", ")}`
-    ].join("\n");
+].join("\n");
 }
 
 
