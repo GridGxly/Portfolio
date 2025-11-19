@@ -120,27 +120,6 @@ export default function App() {
             </Layout>
           }
         />
-    <Route
-    path="/console"
-    element={
-    <ProtectedPage>
-    <SiteLockGate>
-    <AdminView />
-    </SiteLockGate>
-    </ProtectedPage>
-  }
-/>
-<Route
-  path="/logs"
-  element={
-    <ProtectedPage>
-      <SiteLockGate>
-        <LogsPage />
-      </SiteLockGate>
-    </ProtectedPage>
-  }
-/>
-
         <Route
           path="/projects"
           element={
