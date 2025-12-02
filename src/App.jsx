@@ -29,8 +29,6 @@ function Layout({ children }) {
   const handleSecretClick = () => {
     const now = Date.now();
 
-    // to make sure nobody thats not me accidently comes to the protectedpage,
-    // this will make it so if the last click was too long ago the combo will reset
     if (now - lastClick > 800) {
       setClickCount(1);
       setLastClick(now);
@@ -51,52 +49,55 @@ function Layout({ children }) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#020617] text-slate-100">
-      <Navbar />
+    <div className="relative min-h-screen">
+      <AbbyBackground />
 
 
-      <main className="flex-1">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 pt-24 pb-10">
-              {children}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </main>
+      <div className="relative z-10 flex min-h-screen flex-col text-slate-100">
+        <Navbar />
 
-      <div className="mt-10 h-px w-full bg-[#1f2937]" />
+        <main className="flex-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+                {children}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </main>
 
-      <footer className="py-6 text-center text-xs text-slate-400">
-  <p className="flex items-center justify-center gap-1">
-    <span>Made with</span>
-    <img
-      src="/HeartGif.gif"
-      alt="Animated blue heart"
-      className="h-4 w-4"
-    />
-    <button
-      type="button"
-      onClick={handleSecretClick}
-      className="relative px-1 text-cyan-300 underline-offset-2 hover:text-cyan-200 hover:underline"
-    >
-      by Ralph
-    </button>
-  </p>
-  <p className="mt-1">
-    © {currentYear} Ralph Clavens Love Noel. All rights reserved.
-  </p>
-</footer>
+        <div className="mt-10 h-px w-full bg-[#1f2937]" />
 
+        <footer className="py-6 text-center text-xs text-slate-400">
+          <p className="flex items-center justify-center gap-1">
+            <span>Made with</span>
+            <img
+              src="/HeartGif.gif"
+              alt="Animated blue heart"
+              className="h-4 w-4"
+            />
+            <button
+              type="button"
+              onClick={handleSecretClick}
+              className="relative px-1 text-cyan-300 underline-offset-2 hover:text-cyan-200 hover:underline"
+            >
+              by Ralph
+            </button>
+          </p>
+          <p className="mt-1">
+            © {currentYear} Ralph Clavens Love Noel. All rights reserved.
+          </p>
+        </footer>
 
-      <GridgxlyAssistant />
-      <OverlayChips />
+        <GridgxlyAssistant />
+        <OverlayChips />
+      </div>
     </div>
   );
 }
