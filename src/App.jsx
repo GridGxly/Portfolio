@@ -9,6 +9,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 
 import Navbar from "./components/Navbar";
+import AbbyBackground from "./components/AbbyBackground";
 import GridgxlyAssistant from "./components/GridgxlyAssistant";
 import OverlayChips from "./components/OverlayChips";
 import ProtectedPage from "./components/ProtectedPage";
