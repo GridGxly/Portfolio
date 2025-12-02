@@ -9,7 +9,7 @@
     return (
     <section id="hero">
     <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
-        Tailwind v3 finally working.......... Anyways, Welcome To GridGxly.Dev
+    Welcome To GridGxly.Dev
     </h1>
 
     <p className="mt-6 text-lg text-neutral-300 max-w-2xl">
