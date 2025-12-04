@@ -10,7 +10,7 @@ summary:
     export const projects = [
     {
     slug: "portfolio",
-    title: "Portfolio",
+    title: "Portfolio (In Progress)",
     subtitle: "Personal site",
     timeframe: "Nov 2025 – Present",
     color: "blue",
@@ -18,11 +18,11 @@ summary:
     githubUrl: "https://github.com/GridGxly/Portfolio",
     image: "/screenshots/portfolio.png",
     summary:
-    "Accessible, animated personal site with a Jarvis-style voice assistant (G.R.I.D.G.X.L.Y.).",
-    stack: ["React", "Vite", "JavaScript", "Tailwind", "OpenAI API", "Vercel"],
+    "Accessible, animated personal site with a Jarvis inspired voice assistant (G.R.I.D.G.X.L.Y) short for Guided, Responsive, Interactive, Dialogue, Generating, experience, Logic (for) You ",
+    stack: ["React", "Vite", "JavaScript", "Tailwind CSS", "ElevenLabs API"],
     apis: [],
     details: [
-    "Responsive, keyboard-accessible components.",
+    "Responsive and accessible components.",
     "Animated micro-interactions and theming.",
     "Updating my professional growth in my career"
     ],
@@ -31,7 +31,7 @@ summary:
 },
 {
     slug: "voyagoai",
-    title: "VoyagoAI",
+    title: "VoyagoAI (In Progress)",
     subtitle: "Travel companion",
     timeframe: "Nov 2025 – Present",
     color: "orange",
@@ -49,8 +49,8 @@ summary:
     oneLiner: "Travel logging + recommendations with modern React tooling."
     },
 {
-    slug: "finbridgev2",
-    title: "FinBridge V2",
+    slug: "finbridgev2",    
+    title: "FinBridge V2 (In Progress)",
     subtitle: "Knight Hacks Hackathon project",
     timeframe: "Oct 2025 – Present",
     color: "green",
@@ -58,7 +58,7 @@ summary:
     githubUrl: "https://github.com/GridGxly/FinBridgeV2",
     image: "/screenshots/finbridge.jpg",
     summary:
-    "Financial-literacy app for immigrant & bilingual communities; multilingual UI and plain-language explainers.",
+    "Financial literacy app for immigrant & bilingual communities to make finances easier.",
     stack: ["React", "Vite", "Tailwind", "i18next", "Node", "Express", "Firebase", "Vercel"],
     apis: ["Plaid API", "Google Gemini API"],
     details: [
